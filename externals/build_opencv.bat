@@ -42,7 +42,6 @@ cmake ^
 
     -D BUILD_opencv_apps=OFF ^
     -D BUILD_opencv_datasets=OFF ^
-    -D BUILD_opencv_gapi=OFF ^
 
     -D BUILD_opencv_objc_bindings_generator=OFF ^
     -D BUILD_opencv_python_bindings_generator=OFF ^
