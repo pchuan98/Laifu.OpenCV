@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Laifu.OpenCv\Laifu.OpenCv.csproj" />
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="xcopy &quot;$(ProjectDir)..\..\build\Release\*.*&quot; &quot;$(TargetDir)&quot; /S /Y&#xD;&#xA;" />
+  </Target>
+
 </Project>

@@ -40,6 +40,7 @@ add_compile_definitions(CVAPI_EXPORTS)
 add_library(
     ${PROJECT_NAME} SHARED
     "src/core.cpp"
+    "src/std.cpp"
 )
 
 target_link_libraries(

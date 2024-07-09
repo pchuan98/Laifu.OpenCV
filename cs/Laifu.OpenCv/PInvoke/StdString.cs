@@ -1,19 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 namespace Laifu.OpenCv.PInvoke;
 
-internal class StdString(IntPtr? invalidHandleValue = null, bool ownsHandle = true)
-    : SafeHandle(invalidHandleValue ?? IntPtr.Zero, ownsHandle)
+/// <summary>
+/// 
+/// </summary>
+public class StdString() : SafeHandle(IntPtr.Zero, true)
 {
+
+    /// <inheritdoc />
+    public override bool IsInvalid => handle == IntPtr.Zero;
+
+    /// <inheritdoc />
     protected override bool ReleaseHandle()
     {
-        throw new NotImplementedException();
+        NativeMethods.Delete(handle);
+        return true;
     }
 
-    public override bool IsInvalid => handle == IntPtr.Zero;
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        if (IsInvalid)
+            throw new InvalidOperationException("Invalid handle");
+
+        var ptr = NativeMethods.PtrString(this);
+        if (ptr == IntPtr.Zero)
+            throw new OpenCvException("Null string pointer.");
+
+        return Marshal.PtrToStringUTF8(ptr)!;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public static StdString Create() => NativeMethods.Empty();
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public static StdString Create(string str) => NativeMethods.String(str);
 }
