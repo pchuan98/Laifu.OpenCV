@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 // ReSharper disable once CheckNamespace
 namespace Laifu.OpenCv.PInvoke;
@@ -12,10 +7,9 @@ internal static partial class NativeMethods
 {
     private const string LibraryName = "OpenCvSharpExtern";
 
-
     static NativeMethods()
     {
-        if (!IsWindows()) 
+        if (!IsWindows())
             throw new OpenCvException("This lib only support the windows system.");
     }
 

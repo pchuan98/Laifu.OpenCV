@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+add_definitions(-DENABLE_FEATURE_X)
+
 set(OpenCV_DIR ../externals/install/x64/vc17/staticlib)
 find_package(OpenCV REQUIRED)
 
@@ -37,10 +39,11 @@ endif()
 
 add_compile_definitions(CVAPI_EXPORTS)
 
+file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
+message(STATUS "SOURCE_FILES: ${SOURCE_FILES}")
 add_library(
     ${PROJECT_NAME} SHARED
-    "src/core.cpp"
-    "src/std.cpp"
+    ${SOURCE_FILES}
 )
 
 target_link_libraries(
@@ -48,3 +51,6 @@ target_link_libraries(
     ${OpenCV_LIBRARIES})
 
 message(STATUS "EMSCRIPTEN2: ${EMSCRIPTEN}")
+
+add_executable(main main.cpp)
+target_link_libraries(main ${PROJECT_NAME})

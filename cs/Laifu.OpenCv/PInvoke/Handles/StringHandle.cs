@@ -1,15 +1,14 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Laifu.OpenCv.PInvoke;
+namespace Laifu.OpenCv.PInvoke.Handles;
 
 /// <summary>
-/// 
+/// C++ type is <b>std::string*</b> .
 /// </summary>
-public class StdString() : SafeHandle(IntPtr.Zero, true)
+internal class StringHandle() : SafeHandle(nint.Zero, true)
 {
-
     /// <inheritdoc />
-    public override bool IsInvalid => handle == IntPtr.Zero;
+    public override bool IsInvalid => handle == nint.Zero;
 
     /// <inheritdoc />
     protected override bool ReleaseHandle()
@@ -25,7 +24,7 @@ public class StdString() : SafeHandle(IntPtr.Zero, true)
             throw new InvalidOperationException("Invalid handle");
 
         var ptr = NativeMethods.PtrString(this);
-        if (ptr == IntPtr.Zero)
+        if (ptr == nint.Zero)
             throw new OpenCvException("Null string pointer.");
 
         return Marshal.PtrToStringUTF8(ptr)!;
@@ -35,12 +34,12 @@ public class StdString() : SafeHandle(IntPtr.Zero, true)
     /// 
     /// </summary>
     /// <returns></returns>
-    public static StdString Create() => NativeMethods.Empty();
+    public static StringHandle Create() => NativeMethods.Empty();
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="str"></param>
     /// <returns></returns>
-    public static StdString Create(string str) => NativeMethods.String(str);
+    public static StringHandle Create(string str) => NativeMethods.String(str);
 }

@@ -1,1 +1,6 @@
+#include "array.hpp"
 #include "core.hpp"
+#include "gui.hpp"
+#include "imgcodecs.hpp"
+#include "mat_expr.hpp"
+#include "mat.hpp"
