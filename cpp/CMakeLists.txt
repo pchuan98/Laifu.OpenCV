@@ -2,14 +2,14 @@ cmake_minimum_required(VERSION 3.20)
 
 project(OpenCvSharpExtern LANGUAGES CXX VERSION 0.1.0)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_definitions(-DENABLE_FEATURE_X)
 
-set(OpenCV_DIR ../externals/install/x64/vc17/staticlib)
+set(OpenCV_DIR ../externals/install/x64/vc17/lib)
 find_package(OpenCV REQUIRED)
 
 include_directories(
@@ -38,10 +38,6 @@ if(COMPILER_SUPPORTS_GOLD)
     endif()
 endif()
 
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /INCREMENTAL:NO")
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /INCREMENTAL:NO")
-set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /INCREMENTAL:NO")
-
 add_compile_definitions(CVAPI_EXPORTS)
 
 file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
@@ -55,7 +51,13 @@ target_link_libraries(
     ${PROJECT_NAME}
     ${OpenCV_LIBRARIES})
 
-message(STATUS "EMSCRIPTEN2: ${EMSCRIPTEN}")
-
 add_executable(main main.cpp)
 target_link_libraries(main ${PROJECT_NAME})
+
+get_filename_component(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+message(STATUS "XXX: ${ROOT_DIR}")
+
+SET(EXECUTABLE_OUTPUT_PATH ${ROOT_DIR}/bin)
+SET(LIBRARY_OUTPUT_PATH ${ROOT_DIR}/bin)
+
+# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/bin)

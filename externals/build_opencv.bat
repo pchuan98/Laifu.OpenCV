@@ -22,7 +22,7 @@ call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsD
 cmake ^
     -A %msbuildPlatform% ^
     -B %build% ^
-    -D BUILD_SHARED_LIBS=OFF ^
+    -D BUILD_SHARED_LIBS=ON ^
     -D ENABLE_CXX11=1 ^
     -D CMAKE_BUILD_TYPE=Release ^
     -D CMAKE_INSTALL_PREFIX=install ^

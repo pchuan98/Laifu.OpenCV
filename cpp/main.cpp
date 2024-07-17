@@ -25,7 +25,7 @@ int main()
 
     auto img = Mat(1000, 1000, CV_8UC3, Scalar(0, 255, 0));
     imshow("中文测试", img);
-     
+
     waitKey(0);
     destroyAllWindows();
     cout << "ok\n";
