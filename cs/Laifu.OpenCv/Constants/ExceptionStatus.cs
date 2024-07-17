@@ -1,4 +1,4 @@
-﻿namespace Laifu.OpenCv.PInvoke;
+﻿namespace Laifu.OpenCv.Constants;
 
 /// <summary>
 /// Whether native methods for P/Invoke raises an exception

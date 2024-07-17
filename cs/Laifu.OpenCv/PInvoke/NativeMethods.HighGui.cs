@@ -1,9 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.Marshalling;
-using Laifu.OpenCv.PInvoke.Handles;
-
-namespace Laifu.OpenCv.PInvoke;
+﻿namespace Laifu.OpenCv.PInvoke;
 
 partial class NativeMethods
 {
@@ -38,10 +33,10 @@ partial class NativeMethods
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus Gui_ImShow(string winname, MatHandle mat);
 
-    [LibraryImport(LibraryName, EntryPoint = "api_gui_imshow_umat",
-        StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus Gui_ImShowUmat(string winname, UMatHandle mat);
+    //[LibraryImport(LibraryName, EntryPoint = "api_gui_imshow_umat",
+    //    StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    //[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    //internal static partial ExceptionStatus Gui_ImShowUmat(string winname, UMatHandle mat);
 
     [LibraryImport(LibraryName, EntryPoint = "api_gui_resizeWindow",
         StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
@@ -56,7 +51,7 @@ partial class NativeMethods
     [LibraryImport(LibraryName, EntryPoint = "api_gui_setWindowProperty",
         StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus Gui_SetWindowProperty(string winname, int prop_id, double prop_value);
+    internal static partial ExceptionStatus Gui_SetWindowProperty(string winname, int flags, double value);
 
     [LibraryImport(LibraryName, EntryPoint = "api_gui_setWindowTitle",
         StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
@@ -66,21 +61,21 @@ partial class NativeMethods
     [LibraryImport(LibraryName, EntryPoint = "api_gui_getWindowProperty",
         StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus Gui_GetWindowProperty(string winname, int prop_id, out double ret);
+    internal static partial ExceptionStatus Gui_GetWindowProperty(string winname, int flags, out double ret);
 
-    [LibraryImport(LibraryName, EntryPoint = "api_gui_setMouseCallback",
-        StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus Gui_SetMouseCallback(string winname, MouseCallback onMouse, IntPtr userdata);
+    //[LibraryImport(LibraryName, EntryPoint = "api_gui_setMouseCallback",
+    //    StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    //[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    //internal static partial ExceptionStatus Gui_SetMouseCallback(string winname, MouseCallback onMouse, IntPtr userdata);
 
     [LibraryImport(LibraryName, EntryPoint = "api_gui_getMouseWheelDelta")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus Gui_GetMouseWheelDelta(int flags, out int ret);
 
-    [LibraryImport(LibraryName, EntryPoint = "api_gui_createTrackbar",
-        StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
-    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus Gui_CreateTrackbar(string trackbarName, string winName, ref int value, int count, TrackbarCallback onChange, IntPtr userData, out int ret);
+    //[LibraryImport(LibraryName, EntryPoint = "api_gui_createTrackbar",
+    //    StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    //[UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    //internal static partial ExceptionStatus Gui_CreateTrackbar(string trackbarName, string winName, ref int value, int count, TrackbarCallback onChange, IntPtr userData, out int ret);
 
     [LibraryImport(LibraryName, EntryPoint = "api_gui_getTrackbarPos",
         StringMarshallingCustomType = typeof(Utf8StringMarshaller))]

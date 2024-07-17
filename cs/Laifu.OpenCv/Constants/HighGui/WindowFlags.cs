@@ -4,7 +4,7 @@
 namespace Laifu.OpenCv.Constants;
 
 /// <summary>
-/// Flags for window properties.
+/// Flags for cv::namedWindow
 /// </summary>
 [Flags]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]

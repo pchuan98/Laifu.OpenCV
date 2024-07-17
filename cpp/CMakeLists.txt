@@ -22,6 +22,7 @@ if(MSVC)
     add_compile_options(
         $<$<CONFIG:Debug>:/MTd>
         $<$<CONFIG:Release>:/MT>
+        $<$<CONFIG:MINSIZEREL>:/MT>
     )
 endif()
 
@@ -36,6 +37,10 @@ if(COMPILER_SUPPORTS_GOLD)
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fuse-ld=gold")
     endif()
 endif()
+
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /INCREMENTAL:NO")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /INCREMENTAL:NO")
+set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /INCREMENTAL:NO")
 
 add_compile_definitions(CVAPI_EXPORTS)
 

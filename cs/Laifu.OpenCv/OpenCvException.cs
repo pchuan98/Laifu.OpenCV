@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Laifu.OpenCv;
+﻿namespace Laifu.OpenCv;
 
 /// <summary>
 /// All Exception from Laifu.OpenCv will be of this type

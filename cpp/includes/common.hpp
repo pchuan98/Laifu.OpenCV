@@ -8,6 +8,17 @@
 
 #include <opencv2/core.hpp>
 #include <opencv2/core/types_c.h>
+#include <opencv2/aruco.hpp>
+#include <opencv2/aruco/charuco.hpp>
+#include <opencv2/bgsegm.hpp>
+#include <opencv2/img_hash.hpp>
+#include <opencv2/line_descriptor.hpp>
+#include <opencv2/optflow.hpp>
+#include <opencv2/quality.hpp>
+#include <opencv2/tracking.hpp>
+#include <opencv2/xfeatures2d.hpp>
+#include <opencv2/ximgproc.hpp>
+#include <opencv2/xphoto.hpp>
 
 #if defined WIN32 || defined _WIN32
 #pragma warning(pop)

@@ -47,7 +47,7 @@ cmake ^
     -D BUILD_opencv_python_bindings_generator=OFF ^
     -D BUILD_opencv_python_tests=OFF ^
     -D BUILD_opencv_ts=OFF ^
-    -D BUILD_opencv_world=OFF ^
+    -D BUILD_opencv_world=ON ^
 
     -D WITH_QT=OFF ^
     -D WITH_FREETYPE=OFF ^
@@ -56,5 +56,8 @@ cmake ^
     -G "Visual Studio 17 2022" ^
     -S %opencvPath%
 
+msbuild ../build/opencv/INSTALL.vcxproj /t:build /p:configuration=Debug /p:platform=%msbuildPlatform% /maxcpucount
 msbuild ../build/opencv/INSTALL.vcxproj /t:build /p:configuration=Release /p:platform=%msbuildPlatform% /maxcpucount
+
+
 pause

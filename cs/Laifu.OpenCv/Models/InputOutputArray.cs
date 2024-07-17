@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Laifu.OpenCv.PInvoke;
-
-partial class NativeMethods
+namespace Laifu.OpenCv.Models
 {
-  
+    internal class InputOutputArray
+    {
+    }
 }

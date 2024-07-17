@@ -1,10 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.Marshalling;
-using Laifu.OpenCv.PInvoke.Handles;
-
-// ReSharper disable once CheckNamespace
-namespace Laifu.OpenCv.PInvoke;
+﻿namespace Laifu.OpenCv.PInvoke;
 
 partial class NativeMethods
 {
@@ -25,4 +19,7 @@ partial class NativeMethods
     [LibraryImport(LibraryName, EntryPoint = "api_string_c_str")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial IntPtr PtrString(StringHandle obj);
+
+    //[LibraryImport(LibraryName, EntryPoint = "api_stitching_computer_image_feature"), UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    //internal static partial ExceptionStatus XXXX(InputArrayHandle input, ImageFeatures* feature);
 }

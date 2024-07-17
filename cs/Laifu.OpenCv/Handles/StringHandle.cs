@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
+using Laifu.OpenCv.PInvoke;
 
-namespace Laifu.OpenCv.PInvoke.Handles;
+namespace Laifu.OpenCv.Handles;
 
 /// <summary>
 /// C++ type is <b>std::string*</b> .

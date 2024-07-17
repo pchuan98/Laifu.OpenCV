@@ -1,7 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-// ReSharper disable once CheckNamespace
-namespace Laifu.OpenCv.PInvoke;
+﻿namespace Laifu.OpenCv.PInvoke;
 
 internal static partial class NativeMethods
 {
@@ -19,4 +16,15 @@ internal static partial class NativeMethods
     /// <returns></returns>
     private static bool IsWindows() =>
         RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+    internal static bool HandleException(ExceptionStatus status)
+    {
+        if (status == ExceptionStatus.OCCURRED)
+            throw new Exception(); // todo 添加内部错误捕获
+
+        return true;
+    }
+
+    public static bool ThrowHandleException(this ExceptionStatus status)
+        => HandleException(status);
 }
