@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -75,13 +78,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
     <IncludePath>$(SolutionDir)cpp\includes;$(SolutionDir)externals\install\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)externals\install\x64\vc17\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)externals\install\x64\vc17\staticlib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)build\external\</OutDir>
     <TargetName>OpenCvSharpExtern</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)cpp\includes;$(SolutionDir)externals\install\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)externals\install\x64\vc17\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)externals\install\x64\vc17\staticlib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)build\external\</OutDir>
     <TargetName>OpenCvSharpExtern</TargetName>
   </PropertyGroup>

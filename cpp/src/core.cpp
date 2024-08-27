@@ -6,3 +6,7 @@
 #include "mat_expr.hpp"
 #include "mat.hpp"
 #include "umat.hpp"
+#include "std.hpp"
+#include "test.hpp"
+#include "features2d.hpp"
+#include "xfeatures2d.hpp"

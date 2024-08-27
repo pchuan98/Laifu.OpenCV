@@ -1,59 +1,44 @@
 #pragma once
 
-#include <string>
 #include "common.hpp"
-#include "matchers.hpp"
 
-CVAPI(std::string *)
-api_string_empty()
-{
-    return new std::string;
-}
+#include <string>
 
-CVAPI(std::string *)
-api_string(const char *str)
-{
-    return new std::string(str);
-}
+CVAPI_BASE_WRAPPER(api_std_delete(void *obj), delete obj;);
 
-CVAPI(void)
-api_string_delete(const std::string *obj)
-{
-    delete obj;
-}
+#pragma region VECTOR WRAPPER
 
-CVAPI(const char *)
-api_string_c_str(std::string *obj)
-{
-    return obj->c_str();
-}
+#define CVAPI_STD_VECTOR_WRAPPER(type, name)                  \
+    CVAPI(std::vector<type> *)                                \
+    api_std_vector_create_##name##1()                         \
+    {                                                         \
+        return new std::vector<type>();                       \
+    }                                                         \
+    CVAPI(std::vector<type> *)                                \
+    api_std_vector_create_##name##2(size_t size)              \
+    {                                                         \
+        return new std::vector<type>(size);                   \
+    }                                                         \
+    CVAPI(std::vector<type> *)                                \
+    api_std_vector_create_##name##3(type * data, size_t size) \
+    {                                                         \
+        return new std::vector<type>(data, data + size);      \
+    }                                                         \
+    CVAPI(int)                                                \
+    api_std_vector_size_##name(std::vector<type> *vec)        \
+    {                                                         \
+        if (vec == nullptr)                                   \
+            return -1;                                        \
+        return vec->size();                                   \
+    }                                                         \
+    CVAPI(type *)                                             \
+    api_std_vector_data_##name(std::vector<type> *vec)        \
+    {                                                         \
+        if (vec == nullptr)                                   \
+            return nullptr;                                   \
+        return vec->data();                                   \
+    }
 
-struct CV_EXPORTS_W_SIMPLE Laifu_ImageFeatures
-{
-    int img_idx;
-    CvSize img_size;
-    std::vector<cv::KeyPoint> *keypoints;
-    cv::UMat *descriptors;
-};
+CVAPI_STD_VECTOR_WRAPPER(cv::KeyPoint, keypoint);
 
-CVAPI(ExceptionStatus)
-api_stitching_computer_image_feature(
-    cv::_InputArray *image,
-    Laifu_ImageFeatures *features)
-{
-    BEGIN_WRAP
-
-    // Do not free Feature2D
-    // const cv::Ptr<cv::Feature2D> featuresFinderPtr(finder, [](cv::Feature2D *) {});
-    auto finder = cv::xfeatures2d::SURF::create();
-
-    cv::detail::ImageFeatures rawFeature;
-    cv::detail::computeImageFeatures(finder, *image, rawFeature);
-
-    features->img_idx = rawFeature.img_idx;
-    features->img_size = {rawFeature.img_size.width, rawFeature.img_size.height};
-    std::copy(rawFeature.keypoints.begin(), rawFeature.keypoints.end(), std::back_inserter(*features->keypoints));
-    rawFeature.descriptors.copyTo(*features->descriptors);
-
-    END_WRAP
-}
+#pragma endregion

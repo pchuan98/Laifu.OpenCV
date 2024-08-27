@@ -9,7 +9,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_definitions(-DENABLE_FEATURE_X)
 
-set(OpenCV_DIR ../externals/install/x64/vc17/lib)
+set(OpenCV_DIR ../externals/install/x64/vc17/staticlib)
 find_package(OpenCV REQUIRED)
 
 include_directories(
@@ -47,9 +47,13 @@ add_library(
     ${SOURCE_FILES}
 )
 
+# target_link_libraries(
+# ${PROJECT_NAME}
+# opencv_world
+# opencv_img_hash)
 target_link_libraries(
     ${PROJECT_NAME}
-    ${OpenCV_LIBRARIES})
+    ${OpenCV_LIBS})
 
 add_executable(main main.cpp)
 target_link_libraries(main ${PROJECT_NAME})
@@ -57,7 +61,7 @@ target_link_libraries(main ${PROJECT_NAME})
 get_filename_component(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 message(STATUS "XXX: ${ROOT_DIR}")
 
-SET(EXECUTABLE_OUTPUT_PATH ${ROOT_DIR}/bin)
-SET(LIBRARY_OUTPUT_PATH ${ROOT_DIR}/bin)
+# SET(EXECUTABLE_OUTPUT_PATH ${ROOT_DIR}/bin)
+# SET(LIBRARY_OUTPUT_PATH ${ROOT_DIR}/bin)
 
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/bin)

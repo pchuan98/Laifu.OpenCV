@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 namespace Laifu.OpenCv.Models;
 
 
-/// <summary>
-/// 
-/// </summary>
-/// <param name="Index"></param>
-/// <param name="Size"></param>
-/// <param name="KeyPoints"></param>
-/// <param name="Descriptors"></param>
-[Serializable]
-[StructLayout(LayoutKind.Sequential)]
-public readonly record struct ImageFeatures(int Index, CvSize Size, VectorOfKeyPoint KeyPoints, UMatHandle Descriptors);
+///// <summary>
+///// 
+///// </summary>
+///// <param name="Index"></param>
+///// <param name="Size"></param>
+///// <param name="KeyPoints"></param>
+///// <param name="Descriptors"></param>
+//[Serializable]
+//[StructLayout(LayoutKind.Sequential)]
+//public readonly record struct ImageFeatures(int Index, CvSize Size, VectorOfKeyPoint KeyPoints, UMatHandle Descriptors);

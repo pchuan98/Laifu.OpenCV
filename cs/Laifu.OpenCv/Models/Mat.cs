@@ -4,15 +4,13 @@ using static Laifu.OpenCv.PInvoke.NativeMethods;
 
 namespace Laifu.OpenCv.Models;
 
-public partial class Mat : IInputArray
+public partial class Mat : DisposableObject, IInputArray
 {
     private readonly MatHandle _handle;
 
-    private GCHandle _gc;
-
     public MatHandle Handle => _handle;
 
-    public bool IsDisposed => _handle.IsClosed || _handle.IsInvalid;
+    public new bool IsDisposed => _handle.IsClosed || _handle.IsInvalid;
 
     public InputArrayHandle GetInputArrayHandle() => ((InputArray)this).GetInputArrayHandle();
 
@@ -65,8 +63,8 @@ public partial class Mat : IInputArray
 
     public Mat(int row, int col, MatType type, Array data, nint step = 0)
     {
-        _gc = GCHandle.Alloc(data, GCHandleType.Pinned);
-        Mat_Create(row, col, type, _gc.AddrOfPinnedObject(), step, out _handle)
+        DataHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
+        Mat_Create(row, col, type, DataHandle.AddrOfPinnedObject(), step, out _handle)
             .ThrowHandleException();
     }
     public Mat(CvSize size, MatType type, IntPtr data, nint step = 0)
@@ -89,12 +87,12 @@ public partial class Mat : IInputArray
         ArgumentNullException.ThrowIfNull(sizes);
         ArgumentNullException.ThrowIfNull(data);
 
-        _gc = GCHandle.Alloc(data, GCHandleType.Pinned);
+        DataHandle = GCHandle.Alloc(data, GCHandleType.Pinned);
 
         var array = sizes as int[] ?? sizes.ToArray();
         var stepsArray = steps?.ToArray();
 
-        Mat_Create(array.Length, array, type, _gc.AddrOfPinnedObject(), stepsArray, out _handle)
+        Mat_Create(array.Length, array, type, DataHandle.AddrOfPinnedObject(), stepsArray, out _handle)
             .ThrowHandleException();
     }
 

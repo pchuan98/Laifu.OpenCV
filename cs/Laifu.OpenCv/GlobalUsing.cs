@@ -12,3 +12,5 @@ global using System.Runtime.InteropServices.Marshalling;
 global using Laifu.OpenCv.Constants;
 global using Laifu.OpenCv.Handles;
 global using Laifu.OpenCv.Models;
+
+global using static Laifu.OpenCv.PInvoke.NativeMethods;

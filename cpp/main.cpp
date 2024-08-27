@@ -2,6 +2,8 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/core/types_c.h>
+#include "opencv2/stitching/detail/matchers.hpp"
+#include "opencv2/xfeatures2d.hpp"
 
 #include <iostream>
 
@@ -11,22 +13,17 @@
 using namespace std;
 using namespace cv;
 
-void onMouse(int event, int x, int y, int flags, void *userdata)
+void api_test_feature(cv::detail::ImageFeatures *feature)
 {
-    if (event == cv::EVENT_LBUTTONDOWN)
-    {
-        std::cout << "Left button clicked at (" << x << ", " << y << ")" << std::endl;
-    }
+    auto mat = cv::imread("D:\\.test\\test.png");
+    auto finder = cv::ORB::create();
+    cv::detail::computeImageFeatures(finder, mat, *feature);
+    std::cout << feature->keypoints.size() << std::endl;
 }
 
 int main()
 {
     locale::global(locale("zh_CN.UTF-8"));
 
-    auto img = Mat(1000, 1000, CV_8UC3, Scalar(0, 255, 0));
-    imshow("中文测试", img);
-
-    waitKey(0);
-    destroyAllWindows();
-    cout << "ok\n";
+    cout << typeid(int).name() << endl;
 }
