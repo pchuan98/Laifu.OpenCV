@@ -32,3 +32,12 @@ enum class ExceptionStatus : int
 
 #define BEGIN_WRAP ;
 #define END_WRAP return ExceptionStatus::NOT_OCCURRED;
+
+#define CVAPI_BASE_WRAPPER(header, body) \
+    CVAPI(ExceptionStatus)               \
+    header                               \
+    {                                    \
+        BEGIN_WRAP                       \
+        body;                            \
+        END_WRAP                         \
+    }

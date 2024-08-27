@@ -26,4 +26,8 @@ int main()
     locale::global(locale("zh_CN.UTF-8"));
 
     cout << typeid(int).name() << endl;
+
+    auto img = cv::imread("D:\\.test\\test.png");
+    cv::imshow("test", img);
+    cv::waitKey(0);
 }
