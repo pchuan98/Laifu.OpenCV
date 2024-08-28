@@ -60,5 +60,4 @@ cmake ^
 msbuild %build%/INSTALL.vcxproj /t:build /p:configuration=Debug /p:platform=%msbuildPlatform% /maxcpucount
 msbuild %build%/INSTALL.vcxproj /t:build /p:configuration=Release /p:platform=%msbuildPlatform% /maxcpucount
 
-
 pause
