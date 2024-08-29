@@ -12,7 +12,7 @@ internal static partial class Method
     /// <param name="flags">The read flags.</param>
     /// <param name="output">The output Mat handle.</param>
     /// <returns>Exception status.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imread", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imread", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus Imread(string filename, int flags, out MatHandle output);
 
@@ -23,7 +23,7 @@ internal static partial class Method
     /// <param name="mats">The vector handle of Mats to store the images.</param>
     /// <param name="flags">The read flags.</param>
     /// <returns>True if the images are read successfully; otherwise, false.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imreadmulti1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imreadmulti1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool ImreadMulti(string filename, VectorHandle mats, int flags);
@@ -37,7 +37,7 @@ internal static partial class Method
     /// <param name="count">The number of images to read.</param>
     /// <param name="flags">The read flags.</param>
     /// <returns>True if the images are read successfully; otherwise, false.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imreadmulti2", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imreadmulti2", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool ImreadMulti(string filename, VectorHandle mats, int start, int count, int flags);
@@ -48,7 +48,7 @@ internal static partial class Method
     /// <param name="filename">The name of the file to count images in.</param>
     /// <param name="flags">The count flags.</param>
     /// <returns>The number of images.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imcount", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imcount", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial int Imcount(string filename, int flags);
 
@@ -60,7 +60,7 @@ internal static partial class Method
     /// <param name="params">The parameters for writing.</param>
     /// <param name="length">The length of the parameters array.</param>
     /// <returns>True if the image is written successfully; otherwise, false.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imwrite", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imwrite", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool Imwrite(string filename, MatHandle img, int[] @params, int length);
@@ -73,7 +73,7 @@ internal static partial class Method
     /// <param name="params">The parameters for writing.</param>
     /// <param name="length">The length of the parameters array.</param>
     /// <returns>True if the images are written successfully; otherwise, false.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imwritemulti", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imwritemulti", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool ImwriteMulti(string filename, VectorHandle mats, int[] @params, int length);
@@ -85,7 +85,7 @@ internal static partial class Method
     /// <param name="flags">The decode flags.</param>
     /// <param name="output">The output Mat handle.</param>
     /// <returns>Exception status.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imdecode1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imdecode1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus Imdecode(MatHandle buf, int flags, out MatHandle output);
 
@@ -96,7 +96,7 @@ internal static partial class Method
     /// <param name="flags">The decode flags.</param>
     /// <param name="output">The output Mat handle.</param>
     /// <returns>Exception status.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imdecode2", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imdecode2", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus Imdecode(SafePtrHandle buf, int flags, out MatHandle output);
 
@@ -108,7 +108,7 @@ internal static partial class Method
     /// <param name="flags">The decode flags.</param>
     /// <param name="output">The output Mat handle.</param>
     /// <returns>Exception status.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imdecode3", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imdecode3", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static unsafe partial ExceptionStatus Imdecode(byte* buf, int length, int flags, out MatHandle output);
 
@@ -119,7 +119,7 @@ internal static partial class Method
     /// <param name="flags">The decode flags.</param>
     /// <param name="mats">The vector handle of Mats to store the decoded images.</param>
     /// <returns>True if the images are decoded successfully; otherwise, false.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imdecodemulti1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imdecodemulti1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool ImdecodeMulti(SafePtrHandle buf, int flags, VectorHandle mats);
@@ -132,7 +132,7 @@ internal static partial class Method
     /// <param name="flags">The decode flags.</param>
     /// <param name="mats">The vector handle of Mats to store the decoded images.</param>
     /// <returns>True if the images are decoded successfully; otherwise, false.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imdecodemulti2", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imdecodemulti2", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static unsafe partial bool ImdecodeMulti(byte* buf, int length, int flags, SafePtrHandle mats);
@@ -146,7 +146,7 @@ internal static partial class Method
     /// <param name="params">The encoding parameters.</param>
     /// <param name="length">The length of the parameters array.</param>
     /// <returns>True if the image is encoded successfully; otherwise, false.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imencode")]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imencode")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool Imencode([MarshalAs(UnmanagedType.LPStr)] string ext, MatHandle img, SafePtrHandle buf, int[] @params, int length);
@@ -156,7 +156,7 @@ internal static partial class Method
     /// </summary>
     /// <param name="filename">The name of the file to check.</param>
     /// <returns>True if the image reader is available; otherwise, false.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "haveImageReader", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_haveImageReader", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool HaveImageReader(string filename);
@@ -166,7 +166,7 @@ internal static partial class Method
     /// </summary>
     /// <param name="filename">The name of the file to check.</param>
     /// <returns>True if the image writer is available; otherwise, false.</returns>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "haveImageWriter", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_haveImageWriter", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool HaveImageWriter(string filename);

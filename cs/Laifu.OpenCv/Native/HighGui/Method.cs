@@ -18,7 +18,7 @@ internal static partial class Method
     /// </summary>
     /// <param name="winname">The name of the window.</param>
     /// <param name="flags">Window flags.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "namedWindow", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_namedWindow", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus NamedWindow(string winname, int flags = 0);
 
@@ -26,21 +26,21 @@ internal static partial class Method
     /// Destroys a window.
     /// </summary>
     /// <param name="winname">The name of the window.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "destroyWindow", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_destroyWindow", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus DestroyWindow(string winname);
 
     /// <summary>
     /// Destroys all windows.
     /// </summary>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "destroyAllWindows")]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_destroyAllWindows")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus DestroyAllWindows();
 
     /// <summary>
     /// Starts the window thread.
     /// </summary>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "startWindowThread")]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_startWindowThread")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial int StartWindowThread();
 
@@ -48,7 +48,7 @@ internal static partial class Method
     /// Waits for a key event.
     /// </summary>
     /// <param name="delay">Delay in milliseconds.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "waitKeyEx")]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_waitKeyEx")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial int WaitKeyEx(int delay);
 
@@ -56,14 +56,14 @@ internal static partial class Method
     /// Waits for a key event.
     /// </summary>
     /// <param name="delay">Delay in milliseconds.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "waitKey")]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_waitKey")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial int WaitKey(int delay);
 
     /// <summary>
     /// Polls a key event.
     /// </summary>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "pollKey")]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_pollKey")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial int PollKey();
 
@@ -72,7 +72,7 @@ internal static partial class Method
     /// </summary>
     /// <param name="winname">The name of the window.</param>
     /// <param name="mat">The image to display.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imshow1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imshow1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus Imshow(string winname, MatHandle mat);
 
@@ -81,7 +81,7 @@ internal static partial class Method
     /// </summary>
     /// <param name="winname">The name of the window.</param>
     /// <param name="umat">The UMat to display.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "imshow2", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imshow2", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus Imshow(string winname, UMatHandle umat);
 
@@ -91,7 +91,7 @@ internal static partial class Method
     /// <param name="winname">The name of the window.</param>
     /// <param name="width">The width of the window.</param>
     /// <param name="height">The height of the window.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "resizeWindow1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_resizeWindow1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus ResizeWindow(string winname, int width, int height);
 
@@ -100,7 +100,7 @@ internal static partial class Method
     /// </summary>
     /// <param name="winname">The name of the window.</param>
     /// <param name="size">The size of the window.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "resizeWindow2", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_resizeWindow2", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus ResizeWindow(string winname, Size2i size);
 
@@ -110,7 +110,7 @@ internal static partial class Method
     /// <param name="winname">The name of the window.</param>
     /// <param name="x">The x-coordinate of the window's top-left corner.</param>
     /// <param name="y">The y-coordinate of the window's top-left corner.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "moveWindow", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_moveWindow", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus MoveWindow(string winname, int x, int y);
 
@@ -120,7 +120,7 @@ internal static partial class Method
     /// <param name="winname">The name of the window.</param>
     /// <param name="id">The property ID.</param>
     /// <param name="value">The property value.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "setWindowProperty", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_setWindowProperty", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus SetWindowProperty(string winname, int id, double value);
 
@@ -129,7 +129,7 @@ internal static partial class Method
     /// </summary>
     /// <param name="winname">The name of the window.</param>
     /// <param name="title">The title of the window.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "setWindowTitle", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_setWindowTitle", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus SetWindowTitle(string winname, string title);
 
@@ -138,7 +138,7 @@ internal static partial class Method
     /// </summary>
     /// <param name="winname">The name of the window.</param>
     /// <param name="id">The property ID.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "getWindowProperty", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_getWindowProperty", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial double GetWindowProperty(string winname, int id);
 
@@ -147,7 +147,7 @@ internal static partial class Method
     /// </summary>
     /// <param name="winname">The name of the window.</param>
     /// <param name="rect">The output rectangle.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "getWindowImageRect", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_getWindowImageRect", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus GetWindowImageRect(string winname, out Rect2i rect);
 
@@ -157,7 +157,7 @@ internal static partial class Method
     /// <param name="winname">The name of the window.</param>
     /// <param name="onMouse">The mouse callback function.</param>
     /// <param name="userdata">User data to pass to the callback.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "setMouseCallback", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_setMouseCallback", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus SetMouseCallback(string winname, MouseCallback onMouse, IntPtr userdata);
 
@@ -165,7 +165,7 @@ internal static partial class Method
     /// Gets the mouse wheel delta.
     /// </summary>
     /// <param name="flags">Flags for mouse wheel delta.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "getMouseWheelDelta")]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_getMouseWheelDelta")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial int GetMouseWheelDelta(int flags);
 
@@ -178,7 +178,7 @@ internal static partial class Method
     /// <param name="fromCenter">Whether to select ROI from the center.</param>
     /// <param name="printNotice">Whether to print notice.</param>
     /// <param name="roi">The selected ROI.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "selectROI1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_selectROI1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus SelectROI(string windowName, MatHandle img, [MarshalAs(UnmanagedType.Bool)] bool showCrosshair, [MarshalAs(UnmanagedType.Bool)] bool fromCenter, [MarshalAs(UnmanagedType.Bool)] bool printNotice, out Rect2i roi);
 
@@ -190,7 +190,7 @@ internal static partial class Method
     /// <param name="fromCenter">Whether to select ROI from the center.</param>
     /// <param name="printNotice">Whether to print notice.</param>
     /// <param name="roi">The selected ROI.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "selectROI2")]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_selectROI2")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus SelectROI(MatHandle img, [MarshalAs(UnmanagedType.Bool)] bool showCrosshair, [MarshalAs(UnmanagedType.Bool)] bool fromCenter, [MarshalAs(UnmanagedType.Bool)] bool printNotice, out Rect2i roi);
 
@@ -203,7 +203,7 @@ internal static partial class Method
     /// <param name="showCrosshair">Whether to show a crosshair.</param>
     /// <param name="fromCenter">Whether to select ROI from the center.</param>
     /// <param name="printNotice">Whether to print notice.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "selectROIs", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_selectROIs", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus SelectROIs(string windowName, MatHandle img, [MarshalAs(UnmanagedType.LPArray)] Rect2i[] boundingBoxes, [MarshalAs(UnmanagedType.Bool)] bool showCrosshair, [MarshalAs(UnmanagedType.Bool)] bool fromCenter, [MarshalAs(UnmanagedType.Bool)]  bool printNotice);
 
@@ -216,7 +216,7 @@ internal static partial class Method
     /// <param name="count">The maximum value of the trackbar.</param>
     /// <param name="onChange">The callback function when the trackbar value changes.</param>
     /// <param name="userdata">User data to pass to the callback.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "createTrackbar", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_createTrackbar", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial int CreateTrackbar(string trackbarname, string winname, ref int value, int count, TrackbarCallback onChange, IntPtr userdata);
 
@@ -225,7 +225,7 @@ internal static partial class Method
     /// </summary>
     /// <param name="trackbarname">The name of the trackbar.</param>
     /// <param name="winname">The name of the window.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "getTrackbarPos", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_getTrackbarPos", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial int GetTrackbarPos(string trackbarname, string winname);
 
@@ -235,7 +235,7 @@ internal static partial class Method
     /// <param name="trackbarname">The name of the trackbar.</param>
     /// <param name="winname">The name of the window.</param>
     /// <param name="pos">The position to set.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "setTrackbarPos", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_setTrackbarPos", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus SetTrackbarPos(string trackbarname, string winname, int pos);
 
@@ -245,7 +245,7 @@ internal static partial class Method
     /// <param name="trackbarname">The name of the trackbar.</param>
     /// <param name="winname">The name of the window.</param>
     /// <param name="maxval">The maximum value to set.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "setTrackbarMax", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_setTrackbarMax", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus SetTrackbarMax(string trackbarname, string winname, int maxval);
 
@@ -255,7 +255,7 @@ internal static partial class Method
     /// <param name="trackbarname">The name of the trackbar.</param>
     /// <param name="winname">The name of the window.</param>
     /// <param name="minval">The minimum value to set.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "setTrackbarMin", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_setTrackbarMin", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus SetTrackbarMin(string trackbarname, string winname, int minval);
 
@@ -263,7 +263,7 @@ internal static partial class Method
     /// Updates a window.
     /// </summary>
     /// <param name="winname">The name of the window.</param>
-    [LibraryImport(Helper.DLLNAME, EntryPoint = "updateWindow", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
+    [LibraryImport(Helper.DLLNAME, EntryPoint = "api_updateWindow", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus UpdateWindow(string winname);
 }
