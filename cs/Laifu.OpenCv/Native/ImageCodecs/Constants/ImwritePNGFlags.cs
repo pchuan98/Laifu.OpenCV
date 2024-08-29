@@ -1,4 +1,5 @@
-﻿namespace Laifu.OpenCv.Native.ImageCodecs;
+﻿// ReSharper disable once CheckNamespace
+namespace Laifu.OpenCv.Native.ImageCodecs;
 
 /** These flags will be modify the way of PNG image compression and will be passed to the underlying zlib processing stage.
 

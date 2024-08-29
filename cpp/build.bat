@@ -19,3 +19,5 @@ cmake ^
     --config Release ^
     --target ALL_BUILD ^
     -j 34 --
+
+pause

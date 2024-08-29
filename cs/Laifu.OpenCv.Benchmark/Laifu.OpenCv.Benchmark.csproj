@@ -18,6 +18,7 @@
 
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 		<Exec Command="xcopy &quot;$(ProjectDir)..\..\build\Release\*.*&quot; &quot;$(TargetDir)&quot; /S /Y&#xD;&#xA;" />
+		<!--<Exec Command="xcopy &quot;$(ProjectDir)..\..\build\external\*.*&quot; &quot;$(TargetDir)&quot; /S /Y&#xD;&#xA;" />-->
 	</Target>
 
 </Project>

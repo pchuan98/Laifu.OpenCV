@@ -1,4 +1,5 @@
-﻿namespace Laifu.OpenCv.Native.ImageCodecs;
+﻿// ReSharper disable once CheckNamespace
+namespace Laifu.OpenCv.Native.ImageCodecs;
 
 /// <summary>
 /// Enumeration for EXR type flags used in image writing in OpenCV.

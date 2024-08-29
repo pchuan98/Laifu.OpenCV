@@ -6,6 +6,6 @@ cd /d %~dp0
 cd ..
 cd build
 cd release
-dir
+
 dumpbin /exports OpenCvSharpExtern.dll
 pause

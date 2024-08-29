@@ -1,8 +1,10 @@
-﻿namespace Laifu.OpenCv.Native.ImageCodecs;
+﻿// ReSharper disable once CheckNamespace
+namespace Laifu.OpenCv.Native.ImageCodecs;
 
 /// <summary>
 /// Enumeration for TIFF compression flags used in image writing in OpenCV.
 /// </summary>
+// ReSharper disable InconsistentNaming
 public enum ImwriteTiffCompressionFlags
 {
     /// <summary>

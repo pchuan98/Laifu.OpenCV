@@ -1,4 +1,5 @@
-﻿namespace Laifu.OpenCv.Native.ImageCodecs;
+﻿// ReSharper disable once CheckNamespace
+namespace Laifu.OpenCv.Native.ImageCodecs;
 
 /// <summary>
 /// Imwrite HDR specific values for the IMWRITE_HDR_COMPRESSION parameter key.

@@ -1,10 +1,11 @@
-﻿namespace Laifu.OpenCv.Native.ImageCodecs;
+﻿// ReSharper disable once CheckNamespace
+namespace Laifu.OpenCv.Native.ImageCodecs;
 
 /// <summary>
 /// Imwrite PAM specific tupletype flags used to define the 'TUPLETYPE' field of a PAM file.
 /// Specifies the format of the PAM image data.
 /// </summary>
-// ReSharper disable once InconsistentNaming
+// ReSharper disable InconsistentNaming
 public enum ImwritePAMFlags
 {
     /// <summary>

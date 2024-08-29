@@ -1,4 +1,5 @@
-﻿namespace Laifu.OpenCv.Native.ImageCodecs;
+﻿// ReSharper disable once CheckNamespace
+namespace Laifu.OpenCv.Native.ImageCodecs;
 
 /// <summary>
 /// Enumeration for TIFF predictor flags used in image writing in OpenCV.
