@@ -12,4 +12,6 @@
 #pragma once
 
 #include "common.hpp"
+
 #include "core/mat.hpp"
+#include "core/matexpr.hpp"

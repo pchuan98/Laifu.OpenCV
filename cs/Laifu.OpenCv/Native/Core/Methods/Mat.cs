@@ -1,10 +1,9 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace Laifu.OpenCv.Native.Core;
 
-internal static partial class Method
+// new
+partial class Method
 {
-    #region New
-
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_mat_new1")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus MatNew(out MatHandle output);
@@ -56,11 +55,11 @@ internal static partial class Method
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_mat_new13")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus MatNew(MatHandle mat, Range[] ranges, out MatHandle output);
+}
 
-    #endregion
-
-    #region Props
-
+// props
+partial class Method
+{
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_mat_flags")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial int MatFlags(MatHandle mat);
@@ -96,11 +95,11 @@ internal static partial class Method
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_mat_stepat")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial int MatStepAt(MatHandle mat, int i);
+}
 
-    #endregion
-
-    #region Method
-
+// func
+partial class Method
+{
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_mat_row")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial ExceptionStatus MatRow(MatHandle mat, int y, out MatHandle output);
@@ -292,11 +291,11 @@ internal static partial class Method
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_mat_ptr4")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial nint MatPtr(MatHandle mat, int[] idx);
+}
 
-    #endregion
-
-    #region Prop BUT Method
-
+// prop but func
+partial class Method
+{
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_mat_is_continuous")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
@@ -334,6 +333,4 @@ internal static partial class Method
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_mat_total")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial UIntPtr MatTotal(MatHandle mat);
-
-    #endregion
 }

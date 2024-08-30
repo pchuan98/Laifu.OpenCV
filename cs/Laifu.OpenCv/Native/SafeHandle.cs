@@ -21,6 +21,11 @@ public class MatHandle : SafePtrHandle;
 /// <summary>
 /// 
 /// </summary>
+public class MatExprHandle : SafePtrHandle;
+
+/// <summary>
+/// 
+/// </summary>
 public class UMatHandle : SafePtrHandle;
 
 /// <summary>
