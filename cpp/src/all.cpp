@@ -7,3 +7,4 @@
 #include "imgcodecs.hpp"
 #include "std.hpp"
 #include "stitching.hpp"
+#include "test.hpp"

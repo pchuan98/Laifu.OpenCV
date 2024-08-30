@@ -26,4 +26,14 @@ public class UMatHandle : SafePtrHandle;
 /// <summary>
 /// 
 /// </summary>
+public class InputArrayHandle : SafePtrHandle;
+
+/// <summary>
+/// 
+/// </summary>
+public class OutputArrayHandle : SafePtrHandle;
+
+/// <summary>
+/// 
+/// </summary>
 public class VectorHandle : SafePtrHandle;

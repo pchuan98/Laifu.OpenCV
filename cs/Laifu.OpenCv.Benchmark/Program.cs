@@ -1,3 +1,3 @@
 ﻿using Laifu.OpenCv;
 
-Test.TestGui();
+Test.ValueTest();

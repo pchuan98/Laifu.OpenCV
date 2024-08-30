@@ -180,7 +180,7 @@ internal static partial class Method
     /// <param name="roi">The selected ROI.</param>
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_selectROI1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus SelectROI(string windowName, MatHandle img, [MarshalAs(UnmanagedType.Bool)] bool showCrosshair, [MarshalAs(UnmanagedType.Bool)] bool fromCenter, [MarshalAs(UnmanagedType.Bool)] bool printNotice, out Rect2i roi);
+    internal static partial ExceptionStatus SelectROI(string windowName, MatHandle img, [MarshalAs(UnmanagedType.I1)] bool showCrosshair, [MarshalAs(UnmanagedType.I1)] bool fromCenter, [MarshalAs(UnmanagedType.I1)] bool printNotice, out Rect2i roi);
 
     /// <summary>
     /// Selects a region of interest (ROI) from an image.
@@ -192,7 +192,7 @@ internal static partial class Method
     /// <param name="roi">The selected ROI.</param>
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_selectROI2")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus SelectROI(MatHandle img, [MarshalAs(UnmanagedType.Bool)] bool showCrosshair, [MarshalAs(UnmanagedType.Bool)] bool fromCenter, [MarshalAs(UnmanagedType.Bool)] bool printNotice, out Rect2i roi);
+    internal static partial ExceptionStatus SelectROI(MatHandle img, [MarshalAs(UnmanagedType.I1)] bool showCrosshair, [MarshalAs(UnmanagedType.I1)] bool fromCenter, [MarshalAs(UnmanagedType.I1)] bool printNotice, out Rect2i roi);
 
     /// <summary>
     /// Selects multiple regions of interest (ROIs) from an image.
@@ -205,7 +205,7 @@ internal static partial class Method
     /// <param name="printNotice">Whether to print notice.</param>
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_selectROIs", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    internal static partial ExceptionStatus SelectROIs(string windowName, MatHandle img, [MarshalAs(UnmanagedType.LPArray)] Rect2i[] boundingBoxes, [MarshalAs(UnmanagedType.Bool)] bool showCrosshair, [MarshalAs(UnmanagedType.Bool)] bool fromCenter, [MarshalAs(UnmanagedType.Bool)]  bool printNotice);
+    internal static partial ExceptionStatus SelectROIs(string windowName, MatHandle img, [MarshalAs(UnmanagedType.LPArray)] Rect2i[] boundingBoxes, [MarshalAs(UnmanagedType.I1)] bool showCrosshair, [MarshalAs(UnmanagedType.I1)] bool fromCenter, [MarshalAs(UnmanagedType.I1)]  bool printNotice);
 
     /// <summary>
     /// Creates a trackbar.

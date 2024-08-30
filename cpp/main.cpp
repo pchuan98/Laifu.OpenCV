@@ -15,7 +15,4 @@ using namespace cv;
 
 int main()
 {
-    locale::global(locale("zh_CN.UTF-8"));
-
-    cout << typeid(int).name() << endl;
 }

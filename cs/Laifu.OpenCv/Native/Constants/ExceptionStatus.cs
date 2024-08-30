@@ -1,4 +1,5 @@
-﻿namespace Laifu.OpenCv.Native.Constants;
+﻿// ReSharper disable once CheckNamespace
+namespace Laifu.OpenCv.Native.Constants;
 
 /// <summary>
 /// Whether native methods for P/Invoke raises an exception

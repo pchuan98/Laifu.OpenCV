@@ -24,7 +24,7 @@ internal static class Helper
     internal static bool HandleException(ExceptionStatus status)
     {
         if (status == ExceptionStatus.OCCURRED)
-            throw new Exception(); // todo 添加内部错误捕获
+            throw new Exception("Unhandled error, from HandleException. Go to https://github.com/pchuan98/laifu.opencv/issues");
 
         return true;
     }
