@@ -13,5 +13,9 @@
 
 #include "common.hpp"
 
+#include "core/inputarray.hpp"
+#include "core/inputoutputarray.hpp"
 #include "core/mat.hpp"
 #include "core/matexpr.hpp"
+#include "core/outputarray.hpp"
+#include "core/umat.hpp"

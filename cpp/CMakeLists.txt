@@ -23,6 +23,7 @@ if(MSVC)
         $<$<CONFIG:Debug>:/MTd>
         $<$<CONFIG:Release>:/MT>
         $<$<CONFIG:MINSIZEREL>:/MT>
+        "/utf-8"
     )
 endif()
 

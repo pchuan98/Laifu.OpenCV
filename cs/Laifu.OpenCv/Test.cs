@@ -1,12 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Net.Mime;
-using Laifu.OpenCv.Constants;
+﻿using Laifu.OpenCv.Constants;
 using Laifu.OpenCv.Cv2;
-using Laifu.OpenCv.Native;
 using Laifu.OpenCv.Native.Core;
 using Laifu.OpenCv.Native.HighGui;
 using Laifu.OpenCv.Native.ImageCodecs;
-using Range = Laifu.OpenCv.Native.Core.Range;
+using CvRange = Laifu.OpenCv.Native.Core.Range;
 
 namespace Laifu.OpenCv;
 
@@ -100,13 +97,13 @@ public static class Test
         CoreMethod.MatRowRange(mat, 0, 20, out dst);
         Console.WriteLine($"{CoreMethod.MatRows(dst)} {CoreMethod.MatCols(dst)}");
 
-        CoreMethod.MatRowRange(mat, new Range(10, 40), out dst);
+        CoreMethod.MatRowRange(mat, new CvRange(10, 40), out dst);
         Console.WriteLine($"{CoreMethod.MatRows(dst)} {CoreMethod.MatCols(dst)}");
 
         CoreMethod.MatColRange(mat, 0, 20, out dst);
         Console.WriteLine($"{CoreMethod.MatRows(dst)} {CoreMethod.MatCols(dst)}");
 
-        CoreMethod.MatColRange(mat, new Range(10, 40), out dst);
+        CoreMethod.MatColRange(mat, new CvRange(10, 40), out dst);
         Console.WriteLine($"{CoreMethod.MatRows(dst)} {CoreMethod.MatCols(dst)}");
 
         CoreMethod.MatDiag(mat, 1, out dst);

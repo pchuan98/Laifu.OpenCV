@@ -16,7 +16,6 @@ partial class Method
 // func
 partial class Method
 {
-
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_matexpr_size")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial CvSize MatExprSize(MatExprHandle expr);
