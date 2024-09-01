@@ -31,6 +31,11 @@ public class UMatHandle : SafePtrHandle;
 /// <summary>
 /// 
 /// </summary>
+public class UMatDataHandle : SafePtrHandle;
+
+/// <summary>
+/// 
+/// </summary>
 public class InputArrayHandle : SafePtrHandle;
 
 /// <summary>
@@ -41,4 +46,24 @@ public class OutputArrayHandle : SafePtrHandle;
 /// <summary>
 /// 
 /// </summary>
+public class InputOutputArrayHandle : SafePtrHandle;
+
+/// <summary>
+/// 
+/// </summary>
 public class VectorHandle : SafePtrHandle;
+
+/// <summary>
+/// 
+/// </summary>
+public class VectorOfRangeHandle : SafePtrHandle;
+
+/// <summary>
+/// 
+/// </summary>
+public class VectorOfMatHandle : SafePtrHandle;
+
+/// <summary>
+/// 
+/// </summary>
+public class VectorOfUMatHandle : SafePtrHandle;
