@@ -3,6 +3,7 @@ using Laifu.OpenCv.Cv2;
 using Laifu.OpenCv.Native.Core;
 using Laifu.OpenCv.Native.HighGui;
 using Laifu.OpenCv.Native.ImageCodecs;
+using Laifu.OpenCv.Native.Stitching;
 using CvRange = Laifu.OpenCv.Native.Core.Range;
 
 namespace Laifu.OpenCv;
@@ -165,5 +166,41 @@ public static class Test
         bar.OnTrackChanged += Console.WriteLine;
 
         Window.WaitKey();
+    }
+
+    public static void Temp()
+    {
+        ImageCodecsMethod.Imread(@"D:\.test\test.png", -1, out var img);
+
+        //var orb = Native.Stitching.Details.Method.ORB();
+
+        Native.Features2d.Method.OrbNew(
+            500,
+            1.2f,
+            8,
+            31,
+            0,
+            2,
+            0,
+            31,
+            20,
+            out var orb_cvptr);
+        Native.Features2d.Method.OrbGetPtr(orb_cvptr, out var orbptr);
+
+        Native.Features2d.Method.SiftNew(
+            0, 3, 0.04, 10, 1.6,
+            out var sift_cvptr);
+        Native.Features2d.Method.SiftGetPtr(sift_cvptr, out var siftptr);
+
+
+        var feature = new ImageFeature(Native.Stitching.Details.Method.ComputeImageFeatures(siftptr, img));
+
+        Console.WriteLine(feature.Index);
+        Console.WriteLine(feature.Size);
+        Console.WriteLine(feature.Points.Size);
+
+        var array = feature.Points.ToArray();
+        Console.WriteLine(array[0]);
+        Console.WriteLine(array[^1]);
     }
 }

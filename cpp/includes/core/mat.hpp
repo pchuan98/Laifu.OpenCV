@@ -15,6 +15,9 @@
 
 #pragma region Create
 
+using namespace cv;
+using namespace std;
+
 API(ExceptionStatus)
 api_mat_new1(cv::Mat **output)
 {

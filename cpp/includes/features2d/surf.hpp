@@ -1,5 +1,5 @@
 /**
- * @file stitching.hpp
+ * @file surf.hpp
  * @author pchuan98 (haeer98@outlook.com)
  * @brief
  * @version 0.1
@@ -8,9 +8,3 @@
  * @copyright Copyright (c) 2024
  *
  */
-
-#pragma once
-
-#include "common.hpp"
-
-#include "stitching_detail/matchers.hpp"

@@ -12,6 +12,7 @@
 #pragma once
 
 #include "common.hpp"
+#include <vector>
 #include <opencv2/imgcodecs.hpp>
 
 API(ExceptionStatus)

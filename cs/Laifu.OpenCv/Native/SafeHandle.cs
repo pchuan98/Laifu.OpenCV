@@ -3,7 +3,8 @@
 /// <summary>
 /// The default ptr handle.
 /// </summary>
-public class SafePtrHandle() : SafeHandle(IntPtr.Zero, true)
+public class SafePtrHandle()
+    : SafeHandle(IntPtr.Zero, true)
 {
     /// <inheritdoc />
     protected override bool ReleaseHandle()
@@ -11,6 +12,8 @@ public class SafePtrHandle() : SafeHandle(IntPtr.Zero, true)
 
     /// <inheritdoc />
     public override bool IsInvalid => handle == nint.Zero;
+
+
 }
 
 /// <summary>
@@ -41,4 +44,4 @@ public class OutputArrayHandle : SafePtrHandle;
 /// <summary>
 /// 
 /// </summary>
-public class VectorHandle : SafePtrHandle;
+public class StdVectorHandle : SafePtrHandle;

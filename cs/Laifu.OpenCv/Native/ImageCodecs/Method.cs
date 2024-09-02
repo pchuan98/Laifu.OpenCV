@@ -26,7 +26,7 @@ internal static partial class Method
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imreadmulti1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    internal static partial bool ImreadMulti(string filename, VectorHandle mats, int flags);
+    internal static partial bool ImreadMulti(string filename, StdVectorHandle mats, int flags);
 
     /// <summary>
     /// Reads a specified range of images from a file.
@@ -40,7 +40,7 @@ internal static partial class Method
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imreadmulti2", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    internal static partial bool ImreadMulti(string filename, VectorHandle mats, int start, int count, int flags);
+    internal static partial bool ImreadMulti(string filename, StdVectorHandle mats, int start, int count, int flags);
 
     /// <summary>
     /// Counts the number of images in a file.
@@ -76,7 +76,7 @@ internal static partial class Method
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imwritemulti", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    internal static partial bool ImwriteMulti(string filename, VectorHandle mats, int[] @params, int length);
+    internal static partial bool ImwriteMulti(string filename, StdVectorHandle mats, int[] @params, int length);
 
     /// <summary>
     /// Decodes an image from a buffer.
@@ -122,7 +122,7 @@ internal static partial class Method
     [LibraryImport(Helper.DLLNAME, EntryPoint = "api_imdecodemulti1", StringMarshallingCustomType = typeof(Utf8StringMarshaller))]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    internal static partial bool ImdecodeMulti(SafePtrHandle buf, int flags, VectorHandle mats);
+    internal static partial bool ImdecodeMulti(SafePtrHandle buf, int flags, StdVectorHandle mats);
 
     /// <summary>
     /// Decodes multiple images from a buffer.

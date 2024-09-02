@@ -7,6 +7,7 @@
 #pragma warning(pop)
 #endif
 
+#include <vector>
 #include <opencv2/core.hpp>
 #include <opencv2/core/types_c.h>
 
@@ -28,3 +29,9 @@ enum class ExceptionStatus : int
 #else
 #define API(ret) CVAPI(ret)
 #endif
+
+template <typename T>
+static cv::Ptr<T> *clone(const cv::Ptr<T> &ptr)
+{
+    return new cv::Ptr<T>(ptr);
+}
