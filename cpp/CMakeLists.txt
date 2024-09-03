@@ -13,8 +13,9 @@ set(OpenCV_DIR ../externals/install/x64/vc17/staticlib)
 find_package(OpenCV REQUIRED)
 
 include_directories(
-    ${OpenCV_INCLUDE_DIRS},
+    ${OpenCV_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/includes
+    ${CMAKE_CURRENT_SOURCE_DIR}/models
 )
 
 # set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
