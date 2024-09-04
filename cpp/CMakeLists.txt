@@ -58,7 +58,10 @@ target_link_libraries(
     ${OpenCV_LIBS})
 
 add_executable(main main.cpp)
-target_link_libraries(main ${PROJECT_NAME})
+target_link_libraries(main ${OpenCV_LIBS})
+
+add_executable(stitching stitching.cpp)
+target_link_libraries(stitching ${OpenCV_LIBS})
 
 get_filename_component(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 message(STATUS "XXX: ${ROOT_DIR}")

@@ -17,7 +17,7 @@ set build="./build"
 set msbuildPlatform=x64
 
 @REM build
-call "D:\.software\VisualStudio\Common7\Tools\VsDevCmd.bat"
+call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat"
 
 cmake ^
     -A %msbuildPlatform% ^
