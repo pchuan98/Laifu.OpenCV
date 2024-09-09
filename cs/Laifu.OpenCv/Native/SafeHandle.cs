@@ -55,3 +55,6 @@ public class InputOutputArrayHandle : SafePtrHandle;
 /// 
 /// </summary>
 public class StdVectorHandle : SafePtrHandle;
+public class VectorOfMatHandle : SafePtrHandle;
+public class VectorOfUMatHandle : SafePtrHandle;
+public class VectorOfRangeHandle : SafePtrHandle;

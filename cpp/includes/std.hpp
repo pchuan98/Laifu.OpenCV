@@ -96,3 +96,99 @@ std_vec_kp_test2(std::vector<cv::KeyPoint> **output)
 }
 
 #pragma endregion
+
+#pragma region Vector of DMatch
+
+API(ExceptionStatus)
+std_vec_dm_new1(std::vector<cv::DMatch> **out)
+{
+	BEGIN_WRAP
+	*out = new std::vector<cv::DMatch>();
+	END_WRAP
+}
+
+API(ExceptionStatus)
+std_vec_dm_new2(int size, std::vector<cv::DMatch> **out)
+{
+	BEGIN_WRAP
+	*out = new std::vector<cv::DMatch>(size);
+	END_WRAP
+}
+
+API(ExceptionStatus)
+std_vec_dm_new3(cv::DMatch matches[], int size, std::vector<cv::DMatch> **out)
+{
+	BEGIN_WRAP
+	*out = new std::vector<cv::DMatch>(matches, matches + size);
+	END_WRAP
+}
+
+API(ExceptionStatus)
+std_vec_dm_new4(std::vector<cv::DMatch> *ptr, std::vector<cv::DMatch> **out)
+{
+	BEGIN_WRAP
+	*out = new std::vector<cv::DMatch>(*ptr);
+	END_WRAP
+}
+
+API(int)
+std_vec_dm_size(std::vector<cv::DMatch> *vec)
+{
+	return vec->size();
+}
+
+API(void *)
+std_vec_dm_pointer(std::vector<cv::DMatch> *vec)
+{
+	return vec->data();
+}
+
+#pragma endregion
+
+#pragma region Vector of uchar
+
+API(ExceptionStatus)
+std_vec_uchar_new1(std::vector<uchar> **out)
+{
+	BEGIN_WRAP
+	*out = new std::vector<uchar>();
+	END_WRAP
+}
+
+API(ExceptionStatus)
+std_vec_uchar_new2(int size, std::vector<uchar> **out)
+{
+	BEGIN_WRAP
+	*out = new std::vector<uchar>(size);
+	END_WRAP
+}
+
+API(ExceptionStatus)
+std_vec_uchar_new3(uchar values[], int size, std::vector<uchar> **out)
+{
+	BEGIN_WRAP
+	*out = new std::vector<uchar>(values, values + size);
+	END_WRAP
+}
+
+API(ExceptionStatus)
+std_vec_uchar_new4(std::vector<uchar> *ptr, std::vector<uchar> **out)
+{
+	BEGIN_WRAP
+	*out = new std::vector<uchar>(*ptr);
+	END_WRAP
+}
+
+API(int)
+std_vec_uchar_size(std::vector<uchar> *vec)
+{
+	return vec->size();
+}
+
+API(void *)
+std_vec_uchar_pointer(std::vector<uchar> *vec)
+{
+	return vec->data();
+}
+
+#pragma endregion

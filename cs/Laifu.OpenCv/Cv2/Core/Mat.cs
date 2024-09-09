@@ -12,6 +12,8 @@ namespace Laifu.OpenCv.Cv2;
 public partial class Mat
 {
     private readonly MatHandle _handle;
+
+    public MatHandle Handle => _handle;
 }
 
 

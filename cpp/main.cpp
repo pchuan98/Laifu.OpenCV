@@ -290,10 +290,18 @@ void seam(
 int main()
 {
     vector<Mat> images = {
-        imread("D:\\.test\\test_16C3\\1-2.tif"),
-        imread("D:\\.test\\test_16C3\\1-3.tif"),
-        imread("D:\\.test\\test_16C3\\1-4.tif"),
-        // imread("D:\\.test\\test_16C3\\1-5.tif"),
+        // imread("D:\\.test\\test_16C3\\1-2.tif"),
+        // imread("D:\\.test\\test_16C3\\1-3.tif"),
+        // imread("D:\\.test\\test_16C3\\1-4.tif"),
+        imread("D:\\.test\\test_human\\0709\\src\\1_1.tif"),
+        imread("D:\\.test\\test_human\\0709\\src\\1_2.tif"),
+        imread("D:\\.test\\test_human\\0709\\src\\1_3.tif"),
+        imread("D:\\.test\\test_human\\0709\\src\\2_1.tif"),
+        imread("D:\\.test\\test_human\\0709\\src\\2_2.tif"),
+        imread("D:\\.test\\test_human\\0709\\src\\2_3.tif"),
+        imread("D:\\.test\\test_human\\0709\\src\\3_1.tif"),
+        imread("D:\\.test\\test_human\\0709\\src\\3_2.tif"),
+        imread("D:\\.test\\test_human\\0709\\src\\3_3.tif"),
     };
     auto count = images.size();
 
@@ -303,14 +311,31 @@ int main()
 
     vector<MatchesInfo> matches;
     auto match_conf = 0.8f;
-    auto conf_thresh = 1.0f;
+    auto conf_thresh = 0.1f;
     matcher(&features, &matches, makePtr<AffineBestOf2NearestMatcher>(false, false, match_conf));
     // matcher(&features, &matches, makePtr<BestOf2NearestMatcher>(false, match_conf));
     // matcher(&features, &matches, makePtr<BestOf2NearestRangeMatcher>(5, false, match_conf));
-    cout << matches2string(count, matches, conf_thresh) << endl;
+    // cout << matches2string(count, matches, conf_thresh) << endl;
 
+    for (auto m : matches)
+    {
+        cout << m.src_img_idx << "\t"
+             << m.dst_img_idx << "\t"
+             << m.matches.size()
+             << "\t"
+             << m.num_inliers << "\t"
+             << m.confidence << endl;
+    }
+
+    cout << "features size: " << features.size() << endl;
+    cout << "matcher count: " << matches.size() << endl;
     auto indices = leaveBiggestComponent(features, matches, conf_thresh);
+    cout << "features size: " << features.size() << endl;
+    cout << "matcher count: " << matches.size() << endl;
     cout << "indices: " << indices.size() << endl;
+
+    for (auto i : indices)
+        cout << i << " ";
 
     // Mat img_match, m1, m2;
 
@@ -339,20 +364,20 @@ int main()
 
     Ptr<BundleAdjusterBase> adjuster = makePtr<NoBundleAdjuster>();
 
-    motion(&features, &matches, &cameras, estimator, adjuster, true, true, true, true, true, true, 1.0);
+    motion(&features, &matches, &cameras, estimator, adjuster, true, true, true, true, true, true, conf_thresh);
 
-    // for (size_t i = 0; i < cameras.size(); ++i)
-    // {
-    //     Mat R;
-    //     cameras[i].R.convertTo(R, CV_32F);
-    //     cameras[i].R = R;
-    //     cout << "===============================\n"
-    //          << cameras[i].K() << "\n"
-    //          << cameras[i].R << endl;
-    // }
+    for (size_t i = 0; i < cameras.size(); ++i)
+    {
+        Mat R;
+        cameras[i].R.convertTo(R, CV_32F);
+        cameras[i].R = R;
+        cout << "===============================\n"
+             << cameras[i].K() << "\n"
+             << cameras[i].R << endl;
+    }
 
     // Ptr<WarperCreator> creator = makePtr<cv::PlaneWarper>();
-    Ptr<WarperCreator> creator = makePtr<cv::AffineWarper>();
+    // Ptr<WarperCreator> creator = makePtr<cv::AffineWarper>();
     // Ptr<WarperCreator> creator = makePtr<cv::CylindricalWarper>();
     // Ptr<WarperCreator> creator = makePtr<cv::SphericalWarper>();
     // Ptr<WarperCreator> creator = makePtr<cv::FisheyeWarper>();
@@ -368,39 +393,39 @@ int main()
     // Ptr<WarperCreator> creator = makePtr<cv::MercatorWarper>();
     // Ptr<WarperCreator> creator = makePtr<cv::TransverseMercatorWarper>();
 
-    vector<UMat> images_warped;
-    vector<UMat> masks_warped;
-    vector<Point> corners;
+    // vector<UMat> images_warped;
+    // vector<UMat> masks_warped;
+    // vector<Point> corners;
 
-    warper(&images, &images_warped, &masks_warped, &corners, &cameras, creator, 1.0);
+    // warper(&images, &images_warped, &masks_warped, &corners, &cameras, creator, 1.0);
 
     // Ptr<ExposureCompensator> excom = ExposureCompensator::createDefault(ExposureCompensator::NO);
-    Ptr<ExposureCompensator> excom = ExposureCompensator::createDefault(ExposureCompensator::GAIN);
+    // Ptr<ExposureCompensator> excom = ExposureCompensator::createDefault(ExposureCompensator::GAIN);
     // Ptr<ExposureCompensator> excom = ExposureCompensator::createDefault(ExposureCompensator::GAIN_BLOCKS);
     // Ptr<ExposureCompensator> excom = ExposureCompensator::createDefault(ExposureCompensator::CHANNELS);
     // Ptr<ExposureCompensator> excom = ExposureCompensator::createDefault(ExposureCompensator::CHANNELS_BLOCKS);
 
-    compensator(&corners, &images_warped, &masks_warped, excom);
+    // compensator(&corners, &images_warped, &masks_warped, excom);
 
     // Ptr<SeamFinder> seam_finder = makePtr<detail::NoSeamFinder>();
     // Ptr<SeamFinder> seam_finder = makePtr<detail::VoronoiSeamFinder>();
     // Ptr<SeamFinder> seam_finder = makePtr<detail::GraphCutSeamFinder>(GraphCutSeamFinderBase::COST_COLOR);
     // Ptr<SeamFinder> seam_finder = makePtr<detail::GraphCutSeamFinder>(GraphCutSeamFinderBase::COST_COLOR_GRAD);
     // Ptr<SeamFinder> seam_finder = makePtr<detail::DpSeamFinder>(DpSeamFinder::COLOR);
-    Ptr<SeamFinder> seam_finder = makePtr<detail::DpSeamFinder>(DpSeamFinder::COLOR_GRAD);
+    // Ptr<SeamFinder> seam_finder = makePtr<detail::DpSeamFinder>(DpSeamFinder::COLOR_GRAD);
 
-    vector<UMat> src_mask;
-    for (auto m : masks_warped)
-        src_mask.push_back(m.clone());
+    // vector<UMat> src_mask;
+    // for (auto m : masks_warped)
+    //     src_mask.push_back(m.clone());
 
-    seam(&corners, &images_warped, &masks_warped, seam_finder);
+    // seam(&corners, &images_warped, &masks_warped, seam_finder);
 
-    for (size_t i = 0; i < count; i++)
-    {
-        imshow("src", src_mask[i]);
-        imshow("dst", masks_warped[i]);
-        waitKey(0);
-    }
+    // for (size_t i = 0; i < count; i++)
+    // {
+    //     imshow("src", src_mask[i]);
+    //     imshow("dst", masks_warped[i]);
+    //     waitKey(0);
+    // }
 
     printf("Program finished.\n");
 }

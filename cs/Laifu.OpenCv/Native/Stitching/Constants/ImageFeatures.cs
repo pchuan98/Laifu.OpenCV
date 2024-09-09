@@ -1,6 +1,4 @@
 ﻿using System.Drawing;
-using Laifu.OpenCv.Cv2;
-using Laifu.OpenCv.Cv2.Core;
 using Laifu.OpenCv.Native.Core;
 
 // ReSharper disable once CheckNamespace
