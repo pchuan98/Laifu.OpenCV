@@ -16,8 +16,15 @@ public static class ImageFeaturesHelper
             .Select(handle => handle.DangerousGetHandle())
             .ToArray();
 
-        FinderHelper.api_modules_features_array2vector(array, array.Length, out var vector);
+        FinderHelper.api_modules_features_array2vector(array, array.Length, out var vector)
+            .ThrowHandleException();
         return vector;
+    }
+
+    public static ImageFeatures[] ToImageFeatures(this StdVectorHandle ptr)
+    {
+        var vector = new VectorOfImageFeatures(ptr);
+        return vector.ToArray();
     }
 }
 

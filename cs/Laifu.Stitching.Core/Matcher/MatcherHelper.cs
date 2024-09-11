@@ -56,7 +56,16 @@ partial class MatcherHelper
 
     [LibraryImport(Name)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial double api_modules_matches_info_H_at(MatHandle H, int index);
+
+    [LibraryImport(Name)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial double api_modules_matches_info_confidence(SafePtrHandle matchesInfo);
+
+    [LibraryImport(Name)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus api_modules_matches_info_array2vector(nint[] matches, int size, out StdVectorHandle vector);
+    
 }
 
 // AffineBestOf2NearestMatcher

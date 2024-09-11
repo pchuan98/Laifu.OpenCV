@@ -53,7 +53,9 @@ cmake ^
     -D WITH_QT=OFF ^
     -D WITH_FREETYPE=OFF ^
     -D OPENCV_ENABLE_NONFREE=ON ^
+
     -D OPENCV_EXTRA_MODULES_PATH=%modulePath% ^
+
     -G "Visual Studio 17 2022" ^
     -S %opencvPath%
 

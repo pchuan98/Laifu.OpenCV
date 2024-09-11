@@ -36,7 +36,7 @@ using namespace std;
 using namespace cv;
 using namespace cv::detail;
 
-void main()
+int main()
 {
     auto img = imread("D:\\.test\\test.png");
 

@@ -10,7 +10,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 add_definitions(-DENABLE_FEATURE_X)
 
 set(OpenCV_DIR ../externals/install/x64/vc17/staticlib)
-find_package(OpenCV REQUIRED)
+find_package(OpenCV REQUIRED core imgproc highgui features2d stitching)
 
 include_directories(
     ${OpenCV_INCLUDE_DIRS}
@@ -56,6 +56,8 @@ add_library(
 target_link_libraries(
     ${PROJECT_NAME}
     ${OpenCV_LIBS})
+
+message(STATUS "OpenCV_LIBS: ${OpenCV_LIBS}" ${OpenCV_LIBS})
 
 add_executable(main main.cpp)
 target_link_libraries(main ${OpenCV_LIBS})

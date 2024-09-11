@@ -96,9 +96,23 @@ api_modules_features_array2vector(cv::detail::ImageFeatures *features[], int siz
     END_WRAP
 }
 
-#pragma region Vector of ImageFeatures
+API(int)
+api_modules_features_vec_size(vector<cv::detail::ImageFeatures> *vector)
+{
+    return vector->size();
+}
 
-#pragma endregion
+API(ExceptionStatus)
+api_modules_features_vec_at(vector<cv::detail::ImageFeatures> *vector, int index, cv::detail::ImageFeatures **features)
+{
+    BEGIN_WRAP
+
+    if (*features == nullptr)
+        *features = new cv::detail::ImageFeatures();
+
+    **features = (*vector)[index];
+    END_WRAP
+}
 
 #pragma endregion
 
@@ -335,9 +349,39 @@ api_modules_matches_info_H(cv::detail::MatchesInfo *matches_info, cv::Mat **H)
 }
 
 API(double)
+api_modules_matches_info_H_at(cv::Mat *h, int index)
+{
+    if (h->type() != 6)
+        return 0;
+    return h->at<double>(index);
+}
+
+API(double)
 api_modules_matches_info_confidence(cv::detail::MatchesInfo *matches_info)
 {
     return matches_info->confidence;
+}
+
+API(ExceptionStatus)
+api_modules_matches_info_array2vector(
+    cv::detail::MatchesInfo *matches_info[],
+    int size,
+    std::vector<cv::detail::MatchesInfo> **out)
+{
+    BEGIN_WRAP
+    if (*out == nullptr)
+        *out = new std::vector<cv::detail::MatchesInfo>();
+
+    (*out)->clear();
+    (*out)->reserve(size);
+    for (int i = 0; i < size; i++)
+    {
+        if (matches_info[i] != nullptr)
+        {
+            (*out)->push_back(*matches_info[i]);
+        }
+    }
+    END_WRAP
 }
 
 API(int)
@@ -446,6 +490,481 @@ api_modules_matcher_bestof2range(
     matcher->collectGarbage();
 
     END_WRAP
+}
+
+#pragma endregion
+
+#pragma region CameraParams
+
+API(ExceptionStatus)
+api_modules_camera_params_create(cv::detail::CameraParams **camera_params)
+{
+    BEGIN_WRAP
+    *camera_params = new cv::detail::CameraParams();
+    END_WRAP
+}
+
+API(double)
+api_modules_camera_params_focal(cv::detail::CameraParams *camera_params)
+{
+    return camera_params->focal;
+}
+
+API(double)
+api_modules_camera_params_aspect(cv::detail::CameraParams *camera_params)
+{
+    return camera_params->aspect;
+}
+
+API(double)
+api_modules_camera_params_ppx(cv::detail::CameraParams *camera_params)
+{
+    return camera_params->ppx;
+}
+
+API(double)
+api_modules_camera_params_ppy(cv::detail::CameraParams *camera_params)
+{
+    return camera_params->ppy;
+}
+
+API(ExceptionStatus)
+api_modules_camera_params_R(
+    cv::detail::CameraParams *camera_params,
+    cv::Mat **R)
+{
+    BEGIN_WRAP
+    *R = &camera_params->R;
+    END_WRAP
+}
+
+API(ExceptionStatus)
+api_modules_camera_params_t(
+    cv::detail::CameraParams *camera_params,
+    cv::Mat **t)
+{
+    BEGIN_WRAP
+    *t = &camera_params->t;
+    END_WRAP
+}
+
+API(ExceptionStatus)
+api_modules_camera_params_array2vector(
+    cv::detail::CameraParams *camera_params[],
+    int size,
+    std::vector<cv::detail::CameraParams> **out)
+{
+    BEGIN_WRAP
+    if (*out == nullptr)
+        *out = new std::vector<cv::detail::CameraParams>();
+
+    (*out)->clear();
+    (*out)->reserve(size);
+    for (int i = 0; i < size; i++)
+    {
+        if (camera_params[i] != nullptr)
+        {
+            (*out)->push_back(*camera_params[i]);
+        }
+    }
+    END_WRAP
+}
+
+API(int)
+api_modules_camera_params_vec_size(vector<cv::detail::CameraParams> *vector)
+{
+    return vector->size();
+}
+
+API(ExceptionStatus)
+api_modules_camera_params_vec_at(
+    vector<cv::detail::CameraParams> *vector,
+    int index,
+    cv::detail::CameraParams **camera_params)
+{
+    BEGIN_WRAP
+    if (*camera_params == nullptr)
+        *camera_params = new cv::detail::CameraParams();
+
+    **camera_params = (*vector)[index];
+    END_WRAP
+}
+
+#pragma endregion
+
+#pragma region Estimator
+
+API(ExceptionStatus)
+api_modules_estimator_leaveBiggestComponent(
+    vector<cv::detail::ImageFeatures> *features,
+    vector<cv::detail::MatchesInfo> *matches,
+    double conf_thresh,
+    vector<int> **indices)
+{
+    BEGIN_WRAP
+    auto incs = cv::detail::leaveBiggestComponent(*features, *matches, conf_thresh);
+    *indices = new vector<int>(incs.begin(), incs.end());
+    END_WRAP
+}
+
+// CV_WRAP HomographyBasedEstimator(bool is_focals_estimated = false)
+API(bool)
+api_modules_estimator_homography(
+    bool is_focals_estimated,
+    vector<cv::detail::ImageFeatures> *features,
+    vector<cv::detail::MatchesInfo> *pairwise_matches,
+    vector<cv::detail::CameraParams> **cameras)
+{
+    auto estimator = cv::makePtr<cv::detail::HomographyBasedEstimator>(is_focals_estimated);
+    *cameras = new vector<cv::detail::CameraParams>();
+
+    return (*estimator)(*features, *pairwise_matches, **cameras);
+}
+
+// CV_WRAP AffineBasedEstimator(){}
+API(bool)
+api_modules_estimator_affine(
+    vector<cv::detail::ImageFeatures> *features,
+    vector<cv::detail::MatchesInfo> *pairwise_matches,
+    vector<cv::detail::CameraParams> **cameras)
+{
+    auto estimator = cv::makePtr<cv::detail::AffineBasedEstimator>();
+    *cameras = new vector<cv::detail::CameraParams>();
+
+    return (*estimator)(*features, *pairwise_matches, **cameras);
+}
+
+// CV_WRAP NoBundleAdjuster() : BundleAdjusterBase(0, 0) {}
+API(bool)
+api_modules_estimator_no_bundle_adjuster(
+    bool is_focals,
+    bool is_ppx,
+    bool is_ppy,
+    bool is_aspect,
+    bool is_skew,
+    bool is_wave_correct,
+    double conf_thresh,
+    vector<cv::detail::ImageFeatures> *features,
+    vector<cv::detail::MatchesInfo> *pairwise_matches,
+    vector<cv::detail::CameraParams> *cameras)
+{
+    // <fx><skew><ppx><aspect><ppy>
+    Mat_<uchar> refine_mask = Mat::zeros(3, 3, CV_8U);
+    if (is_focals)
+        refine_mask(0, 0) = 1;
+    if (is_skew)
+        refine_mask(0, 1) = 1;
+    if (is_ppx)
+        refine_mask(0, 2) = 1;
+    if (is_aspect)
+        refine_mask(1, 1) = 1;
+    if (is_ppy)
+        refine_mask(1, 2) = 1;
+
+    // converter camera.R to 32F
+    for (size_t i = 0; i < cameras->size(); ++i)
+    {
+        Mat R;
+        (*cameras)[i].R.convertTo(R, CV_32F);
+        (*cameras)[i].R = R;
+    }
+
+    auto adjuster = cv::makePtr<cv::detail::NoBundleAdjuster>();
+    adjuster->setConfThresh(conf_thresh);
+    adjuster->setRefinementMask(refine_mask);
+
+    return (*adjuster)(*features, *pairwise_matches, *cameras);
+}
+
+//  CV_WRAP BundleAdjusterRay() : BundleAdjusterBase(4, 3) {}
+API(bool)
+api_modules_estimator_bundle_adjuster_ray(
+    bool is_focals,
+    bool is_ppx,
+    bool is_ppy,
+    bool is_aspect,
+    bool is_skew,
+    bool is_wave_correct,
+    double conf_thresh,
+    vector<cv::detail::ImageFeatures> *features,
+    vector<cv::detail::MatchesInfo> *pairwise_matches,
+    vector<cv::detail::CameraParams> *cameras)
+{
+    // <fx><skew><ppx><aspect><ppy><wave_correct>
+    Mat_<uchar> refine_mask = Mat::zeros(3, 3, CV_8U);
+    if (is_focals)
+        refine_mask(0, 0) = 1;
+    if (is_skew)
+        refine_mask(0, 1) = 1;
+    if (is_ppx)
+        refine_mask(0, 2) = 1;
+    if (is_aspect)
+        refine_mask(1, 1) = 1;
+    if (is_ppy)
+        refine_mask(1, 2) = 1;
+    if (is_wave_correct)
+        refine_mask(2, 2) = 1;
+
+    // converter camera.R to 32F
+    for (size_t i = 0; i < cameras->size(); ++i)
+    {
+        Mat R;
+        (*cameras)[i].R.convertTo(R, CV_32F);
+        (*cameras)[i].R = R;
+    }
+
+    auto adjuster = cv::makePtr<cv::detail::BundleAdjusterRay>();
+    adjuster->setConfThresh(conf_thresh);
+    adjuster->setRefinementMask(refine_mask);
+
+    return (*adjuster)(*features, *pairwise_matches, *cameras);
+}
+
+// CV_WRAP BundleAdjusterReproj() : BundleAdjusterBase(7, 2) {}
+API(bool)
+api_modules_estimator_bundle_adjuster_reproj(
+    bool is_focals,
+    bool is_ppx,
+    bool is_ppy,
+    bool is_aspect,
+    bool is_skew,
+    bool is_wave_correct,
+    double conf_thresh,
+    vector<cv::detail::ImageFeatures> *features,
+    vector<cv::detail::MatchesInfo> *pairwise_matches,
+    vector<cv::detail::CameraParams> *cameras)
+{
+    // <fx><skew><ppx><aspect><ppy><wave_correct>
+    Mat_<uchar> refine_mask = Mat::zeros(3, 3, CV_8U);
+    if (is_focals)
+        refine_mask(0, 0) = 1;
+    if (is_skew)
+        refine_mask(0, 1) = 1;
+    if (is_ppx)
+        refine_mask(0, 2) = 1;
+    if (is_aspect)
+        refine_mask(1, 1) = 1;
+    if (is_ppy)
+        refine_mask(1, 2) = 1;
+    if (is_wave_correct)
+        refine_mask(2, 2) = 1;
+
+    // converter camera.R to 32F
+    for (size_t i = 0; i < cameras->size(); ++i)
+    {
+        Mat R;
+        (*cameras)[i].R.convertTo(R, CV_32F);
+        (*cameras)[i].R = R;
+    }
+
+    auto adjuster = cv::makePtr<cv::detail::BundleAdjusterReproj>();
+    adjuster->setConfThresh(conf_thresh);
+    adjuster->setRefinementMask(refine_mask);
+
+    return (*adjuster)(*features, *pairwise_matches, *cameras);
+}
+
+// CV_WRAP BundleAdjusterAffinePartial() : BundleAdjusterBase(4, 2) {}
+API(bool)
+api_modules_estimator_bundle_adjuster_affine_partial(
+    bool is_focals,
+    bool is_ppx,
+    bool is_ppy,
+    bool is_aspect,
+    bool is_skew,
+    bool is_wave_correct,
+    double conf_thresh,
+    vector<cv::detail::ImageFeatures> *features,
+    vector<cv::detail::MatchesInfo> *pairwise_matches,
+    vector<cv::detail::CameraParams> *cameras)
+{
+    // <fx><skew><ppx><aspect><ppy><wave_correct>
+    Mat_<uchar> refine_mask = Mat::zeros(3, 3, CV_8U);
+    if (is_focals)
+        refine_mask(0, 0) = 1;
+    if (is_skew)
+        refine_mask(0, 1) = 1;
+    if (is_ppx)
+        refine_mask(0, 2) = 1;
+    if (is_aspect)
+        refine_mask(1, 1) = 1;
+    if (is_ppy)
+        refine_mask(1, 2) = 1;
+    if (is_wave_correct)
+        refine_mask(2, 2) = 1;
+
+    // converter camera.R to 32F
+    for (size_t i = 0; i < cameras->size(); ++i)
+    {
+        Mat R;
+        (*cameras)[i].R.convertTo(R, CV_32F);
+        (*cameras)[i].R = R;
+    }
+
+    auto adjuster = cv::makePtr<cv::detail::BundleAdjusterAffinePartial>();
+    adjuster->setConfThresh(conf_thresh);
+    adjuster->setRefinementMask(refine_mask);
+
+    return (*adjuster)(*features, *pairwise_matches, *cameras);
+}
+
+#pragma endregion
+
+#pragma region Warper
+
+API(ExceptionStatus)
+api_modules_warper_create(
+    int type,
+    float scale,
+    cv::Ptr<cv::detail::RotationWarper> **warper)
+{
+    BEGIN_WRAP
+    cv::Ptr<cv::WarperCreator> warper_creator;
+
+    switch (type)
+    {
+    case 0:
+        warper_creator = cv::makePtr<cv::PlaneWarper>();
+        break;
+    case 1:
+        warper_creator = cv::makePtr<cv::AffineWarper>();
+        break;
+    case 2:
+        warper_creator = cv::makePtr<cv::CylindricalWarper>();
+        break;
+    case 3:
+        warper_creator = cv::makePtr<cv::SphericalWarper>();
+        break;
+    case 4:
+        warper_creator = cv::makePtr<cv::FisheyeWarper>();
+        break;
+    case 5:
+        warper_creator = cv::makePtr<cv::StereographicWarper>();
+        break;
+    case 6:
+        warper_creator = cv::makePtr<cv::CompressedRectilinearWarper>(2.0f, 1.0f);
+        break;
+    case 7:
+        warper_creator = cv::makePtr<cv::CompressedRectilinearWarper>(1.5f, 1.0f);
+        break;
+    case 8:
+        warper_creator = cv::makePtr<cv::CompressedRectilinearPortraitWarper>(2.0f, 1.0f);
+        break;
+    case 9:
+        warper_creator = cv::makePtr<cv::CompressedRectilinearPortraitWarper>(1.5f, 1.0f);
+        break;
+    case 10:
+        warper_creator = cv::makePtr<cv::PaniniWarper>(2.0f, 1.0f);
+        break;
+    case 11:
+        warper_creator = cv::makePtr<cv::PaniniWarper>(1.5f, 1.0f);
+        break;
+    case 12:
+        warper_creator = cv::makePtr<cv::PaniniPortraitWarper>(2.0f, 1.0f);
+        break;
+    case 13:
+        warper_creator = cv::makePtr<cv::PaniniPortraitWarper>(1.5f, 1.0f);
+        break;
+    case 14:
+        warper_creator = cv::makePtr<cv::MercatorWarper>();
+        break;
+    case 15:
+        warper_creator = cv::makePtr<cv::TransverseMercatorWarper>();
+        break;
+    default:
+        break;
+    }
+
+    if (warper_creator.get() != nullptr)
+    {
+        **warper = warper_creator->create(scale);
+    }
+
+    END_WRAP
+}
+
+// virtual Point2f warpPoint(const Point2f &pt, InputArray K, InputArray R) = 0;
+API(CvPoint2D32f)
+api_modules_warper_warp_point(
+    cv::Point2f pt,
+    cv::Mat *K,
+    cv::Mat *R,
+    cv::Ptr<cv::detail::RotationWarper> *warper)
+{
+    auto point = (*warper)->warpPoint(pt, *K, *R);
+    return {point.x, point.y};
+}
+
+// virtual Point2f warpPointBackward(const Point2f& pt, InputArray K, InputArray R)
+API(CvPoint2D32f)
+api_modules_warper_warp_point_backward(
+    cv::Point2f pt,
+    cv::Mat *K,
+    cv::Mat *R,
+    cv::Ptr<cv::detail::RotationWarper> *warper)
+{
+    auto point = (*warper)->warpPointBackward(pt, *K, *R);
+    return {point.x, point.y};
+}
+
+// virtual Rect buildMaps(Size src_size, InputArray K, InputArray R, OutputArray xmap, OutputArray ymap) = 0;
+API(CvRect)
+api_modules_warper_build_maps(
+    cv::Size src_size,
+    cv::Mat *K,
+    cv::Mat *R,
+    cv::Mat *xmap,
+    cv::Mat *ymap,
+    cv::Ptr<cv::detail::RotationWarper> *warper)
+{
+    auto rect = (*warper)->buildMaps(src_size, *K, *R, *xmap, *ymap);
+    return {rect.x, rect.y, rect.width, rect.height};
+}
+
+// virtual Point warp(InputArray src, InputArray K, InputArray R, int interp_mode, int border_mode,
+//                    CV_OUT OutputArray dst) = 0;
+API(CvPoint)
+api_modules_warper_warp(
+    cv::Mat *src,
+    cv::Mat *K,
+    cv::Mat *R,
+    int interp_mode,
+    int border_mode,
+    cv::Mat *dst,
+    cv::Ptr<cv::detail::RotationWarper> *warper)
+{
+    auto point = (*warper)->warp(*src, *K, *R, interp_mode, border_mode, *dst);
+    return {point.x, point.y};
+}
+
+// virtual void warpBackward(InputArray src, InputArray K, InputArray R, int interp_mode, int border_mode,
+//                             Size dst_size, CV_OUT OutputArray dst) = 0;
+API(ExceptionStatus)
+api_modules_warper_warp_backward(
+    cv::Mat *src,
+    cv::Mat *K,
+    cv::Mat *R,
+    int interp_mode,
+    int border_mode,
+    cv::Size dst_size,
+    cv::Mat *dst,
+    cv::Ptr<cv::detail::RotationWarper> *warper)
+{
+    BEGIN_WRAP;
+    (*warper)->warpBackward(*src, *K, *R, interp_mode, border_mode, dst_size, *dst);
+    END_WRAP
+}
+
+// virtual Rect warpRoi(Size src_size, InputArray K, InputArray R) = 0;
+API(CvRect)
+api_modules_warper_warp_roi(
+    cv::Size src_size,
+    cv::Mat *K,
+    cv::Mat *R,
+    cv::Ptr<cv::detail::RotationWarper> *warper)
+{
+    auto rect = (*warper)->warpRoi(src_size, *K, *R);
+    return {rect.x, rect.y, rect.width, rect.height};
 }
 
 #pragma endregion

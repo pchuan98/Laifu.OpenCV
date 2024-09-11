@@ -192,3 +192,51 @@ std_vec_uchar_pointer(std::vector<uchar> *vec)
 }
 
 #pragma endregion
+
+#pragma region Vector of int
+
+API(ExceptionStatus)
+std_vec_int_new1(std::vector<int> **out)
+{
+	BEGIN_WRAP
+	*out = new std::vector<int>();
+	END_WRAP
+}
+
+API(ExceptionStatus)
+std_vec_int_new2(int size, std::vector<int> **out)
+{
+	BEGIN_WRAP
+	*out = new std::vector<int>(size);
+	END_WRAP
+}
+
+API(ExceptionStatus)
+std_vec_int_new3(int values[], int size, std::vector<int> **out)
+{
+	BEGIN_WRAP
+	*out = new std::vector<int>(values, values + size);
+	END_WRAP
+}
+
+API(ExceptionStatus)
+std_vec_int_new4(std::vector<int> *ptr, std::vector<int> **out)
+{
+	BEGIN_WRAP
+	*out = new std::vector<int>(*ptr);
+	END_WRAP
+}
+
+API(int)
+std_vec_int_size(std::vector<int> *vec)
+{
+	return vec->size();
+}
+
+API(void *)
+std_vec_int_pointer(std::vector<int> *vec)
+{
+	return vec->data();
+}
+
+#pragma endregion

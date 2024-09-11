@@ -36,6 +36,7 @@ public class VectorOfMatchInfo(StdVectorHandle handle) : DisposableObject
     public MatchesInfo[] ToArray()
     {
         var size = Size;
+ 
         var array = new MatchesInfo[size];
 
         for (var i = 0; i < size; i++)
@@ -45,4 +46,4 @@ public class VectorOfMatchInfo(StdVectorHandle handle) : DisposableObject
 
         return array;
     }
-}
+}   

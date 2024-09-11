@@ -7,6 +7,20 @@ namespace Laifu.Stitching.Core.Matcher;
 
 public static class MatchesInfoHelper
 {
+    public static StdVectorHandle ToHandle(this IEnumerable<MatchesInfo> @params)
+    {
+        var array = @params
+            .ToArray()
+            .Select(item => item.Handle)
+            .Select(handle => handle.DangerousGetHandle())
+            .ToArray();
+
+        MatcherHelper.api_modules_matches_info_array2vector(array, array.Length, out var vector)
+            .ThrowHandleException();
+
+        return vector;
+    }
+
     public static MatchesInfo[] ToMatchInfos(this StdVectorHandle ptr)
     {
         var vector = new VectorOfMatchInfo(ptr);
@@ -88,14 +102,31 @@ public class MatchesInfo(SafePtrHandle handle) : IDisposable
         var h = H!;
         var cols = h.Cols;
         var rows = h.Rows;
+        var hstr = "";
+
+        if (cols == 0 || rows == 0) hstr = "[0]";
+        else
+        {
+            for (var i = 0; i < rows; i++)
+            {
+                var line = new List<string>();
+                for (var j = 0; j < cols; j++)
+                {
+                    line.Add($"{MatcherHelper.api_modules_matches_info_H_at(h.Handle, j + i * rows) + 0.001:F2}");
+                }
+
+                hstr += $"[{string.Join(',', line)}]";
+            }
+        }
 
         var confidence = Confidence;
 
-        return $"src:       {src}\n" +
-               $"dst:       {dst}\n" +
-               $"conf:      {confidence}\n" +
-               $"match:     {count}\n" +
+        return $"src        {src}\n" +
+               $"dst        {dst}\n" +
+               $"conf       {confidence}\n" +
+               $"match      {count}\n" +
                $"[0]        {first}\n" +
-               $"[^1]       {last}";
+               $"[^1]       {last}\n" +
+               $"H          {hstr}";
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Laifu.OpenCv.Cv2;
+using Laifu.Stitching.Core.Estimator;
 using Laifu.Stitching.Core.Finder;
 using Laifu.Stitching.Core.Matcher;
 
@@ -17,23 +18,25 @@ public partial class MainWindow
 
         var orb = new Orb();
         orb.ComputeImageFeatures(Cv2.ImRead(@"D:\.test\stitch2\3-4.jpg"), out var f1);
-        orb.ComputeImageFeatures(Cv2.ImRead(@"D:\.test\stitch2\3-5.jpg"), out var f2);
+        orb.ComputeImageFeatures(Cv2.ImRead(@"D:\.test\stitch2\3-4.jpg"), out var f2);
 
-        var fs = new[] { f1, f2 };
-        var handle = fs.ToHandle();
+        var features = new[] { f1, f2 };
 
-        var matcher = new AffineBestOf2NearestMatcher();
-        matcher.Match(fs, out var infos, 0.1);
+        new AffineBestOf2NearestMatcher().Match(features, out var matches, 0.1);
 
-        foreach (var t in infos)
-        {
-            if (t.SrcIndex == -1) continue;
+        var camera = new AffineBasedEstimator();
+        Console.WriteLine(camera.Estimate(features, matches, out var cameras));
 
-            Console.WriteLine(t);
-            Console.WriteLine("====================================================");
+        Console.WriteLine(features.Length);
+        Console.WriteLine(matches.Length);
 
-        }
+        EstimatorExtension.LeaveBiggestComponent(ref features, ref matches, out var indices, 1);
 
-        Console.Read();
+        Console.WriteLine(features.Length);
+        Console.WriteLine(matches.Length);
+
+        Console.WriteLine(new NoBundleAdjuster().Estimate(ref features, ref matches, ref cameras));
+
+        App.Current.Shutdown();
     }
 }

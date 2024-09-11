@@ -140,6 +140,20 @@ void motion(
         cout << "!!!!!!!!!!!! Estimation failed. !!!!!!!!!!!!" << endl;
         return;
     }
+    // else
+    // {
+    //     cout << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" << endl;
+    //     for (size_t i = 0; i < cameras->size(); i++)
+    //     {
+    //         cout << "focal: " << (*cameras)[i].focal << endl;
+    //         cout << "ppx: " << (*cameras)[i].ppx << endl;
+    //         cout << "ppy: " << (*cameras)[i].ppy << endl;
+    //         cout << "aspect: " << (*cameras)[i].aspect << endl;
+    //         cout << "R: " << (*cameras)[i].R << endl;
+    //         cout << "t: " << (*cameras)[i].t << endl;
+    //     }
+    //     cout << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" << endl;
+    // }
 
     for (size_t i = 0; i < cameras->size(); ++i)
     {
@@ -290,18 +304,20 @@ void seam(
 int main()
 {
     vector<Mat> images = {
+        imread("D:\\.test\\stitch2\\3-4.jpg"),
+        imread("D:\\.test\\stitch2\\3-5.jpg")
         // imread("D:\\.test\\test_16C3\\1-2.tif"),
         // imread("D:\\.test\\test_16C3\\1-3.tif"),
         // imread("D:\\.test\\test_16C3\\1-4.tif"),
-        imread("D:\\.test\\test_human\\0709\\src\\1_1.tif"),
-        imread("D:\\.test\\test_human\\0709\\src\\1_2.tif"),
-        imread("D:\\.test\\test_human\\0709\\src\\1_3.tif"),
-        imread("D:\\.test\\test_human\\0709\\src\\2_1.tif"),
-        imread("D:\\.test\\test_human\\0709\\src\\2_2.tif"),
-        imread("D:\\.test\\test_human\\0709\\src\\2_3.tif"),
-        imread("D:\\.test\\test_human\\0709\\src\\3_1.tif"),
-        imread("D:\\.test\\test_human\\0709\\src\\3_2.tif"),
-        imread("D:\\.test\\test_human\\0709\\src\\3_3.tif"),
+        // imread("D:\\.test\\test_human\\0709\\src\\1_1.tif"),
+        // imread("D:\\.test\\test_human\\0709\\src\\1_2.tif"),
+        // imread("D:\\.test\\test_human\\0709\\src\\1_3.tif"),
+        // imread("D:\\.test\\test_human\\0709\\src\\2_1.tif"),
+        // imread("D:\\.test\\test_human\\0709\\src\\2_2.tif"),
+        // imread("D:\\.test\\test_human\\0709\\src\\2_3.tif"),
+        // imread("D:\\.test\\test_human\\0709\\src\\3_1.tif"),
+        // imread("D:\\.test\\test_human\\0709\\src\\3_2.tif"),
+        // imread("D:\\.test\\test_human\\0709\\src\\3_3.tif"),
     };
     auto count = images.size();
 
@@ -310,7 +326,7 @@ int main()
     finder(&images, &features, SIFT::create(), scale);
 
     vector<MatchesInfo> matches;
-    auto match_conf = 0.8f;
+    auto match_conf = 0.5f;
     auto conf_thresh = 0.1f;
     matcher(&features, &matches, makePtr<AffineBestOf2NearestMatcher>(false, false, match_conf));
     // matcher(&features, &matches, makePtr<BestOf2NearestMatcher>(false, match_conf));
@@ -321,12 +337,12 @@ int main()
     {
         cout << m.src_img_idx << "\t"
              << m.dst_img_idx << "\t"
-             << m.matches.size()
-             << "\t"
+             << m.matches.size() << "\t"
              << m.num_inliers << "\t"
              << m.confidence << endl;
     }
 
+    cout << "---------------------------------------" << endl;
     cout << "features size: " << features.size() << endl;
     cout << "matcher count: " << matches.size() << endl;
     auto indices = leaveBiggestComponent(features, matches, conf_thresh);
@@ -334,8 +350,14 @@ int main()
     cout << "matcher count: " << matches.size() << endl;
     cout << "indices: " << indices.size() << endl;
 
-    for (auto i : indices)
-        cout << i << " ";
+    for (auto m : matches)
+    {
+        cout << m.src_img_idx << "\t"
+             << m.dst_img_idx << "\t"
+             << m.matches.size() << "\t"
+             << m.num_inliers << "\t"
+             << m.confidence << endl;
+    }
 
     // Mat img_match, m1, m2;
 
@@ -372,8 +394,11 @@ int main()
         cameras[i].R.convertTo(R, CV_32F);
         cameras[i].R = R;
         cout << "===============================\n"
+             << cameras[i].ppx << "\n"
+             << cameras[i].ppy << "\n"
              << cameras[i].K() << "\n"
-             << cameras[i].R << endl;
+             << cameras[i].R << "\n"
+             << cameras[i].t << endl;
     }
 
     // Ptr<WarperCreator> creator = makePtr<cv::PlaneWarper>();
