@@ -2,6 +2,8 @@
 using Laifu.Stitching.Core.Estimator;
 using Laifu.Stitching.Core.Finder;
 using Laifu.Stitching.Core.Matcher;
+using Laifu.Stitching.Core.Models;
+using Laifu.Stitching.Core.Warper;
 
 namespace Laifu.Stitching.Wpf;
 
@@ -36,6 +38,12 @@ public partial class MainWindow
         Console.WriteLine(matches.Length);
 
         Console.WriteLine(new NoBundleAdjuster().Estimate(ref features, ref matches, ref cameras));
+
+        var warper = RotationWarper.Generator(WarpType.Plane, 1);
+        warper.K = MatGenerator.K(1, 10, 10, 1);
+        warper.R = MatGenerator.Eye();
+
+        Console.WriteLine(warper.WarpPointBackward(new CvPoint2f(1, 1)));
 
         App.Current.Shutdown();
     }

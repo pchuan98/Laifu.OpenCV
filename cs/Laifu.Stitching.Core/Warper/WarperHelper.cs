@@ -37,6 +37,20 @@ partial class WarperHelper
 
     [LibraryImport(Name)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus api_modules_warper_get(
+        SafePtrHandle warperPtr,
+        out SafePtrHandle warper);
+
+    [LibraryImport(Name)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    internal static partial ExceptionStatus api_modules_warper_32Mat(
+        float a11, float a12, float a13,
+        float a21, float a22, float a23,
+        float a31, float a32, float a33,
+        out MatHandle warper);
+
+    [LibraryImport(Name)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     internal static partial CvPoint2f api_modules_warper_warp_point(
         CvPoint2f pt,
         SafePtrHandle K,

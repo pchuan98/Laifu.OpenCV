@@ -819,6 +819,7 @@ api_modules_warper_create(
     cv::Ptr<cv::detail::RotationWarper> **warper)
 {
     BEGIN_WRAP
+
     cv::Ptr<cv::WarperCreator> warper_creator;
 
     switch (type)
@@ -877,9 +878,43 @@ api_modules_warper_create(
 
     if (warper_creator.get() != nullptr)
     {
-        **warper = warper_creator->create(scale);
+        auto ptr = warper_creator->create(scale);
+        *warper = new cv::Ptr<cv::detail::RotationWarper>(ptr);
     }
 
+    END_WRAP
+}
+
+API(ExceptionStatus)
+api_modules_warper_get(
+    cv::Ptr<cv::detail::RotationWarper> *warperPtr,
+    cv::detail::RotationWarper **warper)
+{
+    BEGIN_WRAP
+    *warper = warperPtr->get();
+    END_WRAP
+}
+
+API(ExceptionStatus)
+api_modules_warper_32Mat(
+    float a11, float a12, float a13,
+    float a21, float a22, float a23,
+    float a31, float a32, float a33,
+    cv::Mat **mat)
+{
+    BEGIN_WRAP
+    if (*mat == nullptr)
+        *mat = new cv::Mat(3, 3, CV_32FC1);
+
+    (*mat)->at<float>(0, 0) = a11;
+    (*mat)->at<float>(0, 1) = a12;
+    (*mat)->at<float>(0, 2) = a13;
+    (*mat)->at<float>(1, 0) = a21;
+    (*mat)->at<float>(1, 1) = a22;
+    (*mat)->at<float>(1, 2) = a23;
+    (*mat)->at<float>(2, 0) = a31;
+    (*mat)->at<float>(2, 1) = a32;
+    (*mat)->at<float>(2, 2) = a33;
     END_WRAP
 }
 
@@ -889,9 +924,9 @@ api_modules_warper_warp_point(
     cv::Point2f pt,
     cv::Mat *K,
     cv::Mat *R,
-    cv::Ptr<cv::detail::RotationWarper> *warper)
+    cv::detail::RotationWarper *warper)
 {
-    auto point = (*warper)->warpPoint(pt, *K, *R);
+    auto point = warper->warpPoint(pt, *K, *R);
     return {point.x, point.y};
 }
 
@@ -901,9 +936,9 @@ api_modules_warper_warp_point_backward(
     cv::Point2f pt,
     cv::Mat *K,
     cv::Mat *R,
-    cv::Ptr<cv::detail::RotationWarper> *warper)
+    cv::detail::RotationWarper *warper)
 {
-    auto point = (*warper)->warpPointBackward(pt, *K, *R);
+    auto point = warper->warpPointBackward(pt, *K, *R);
     return {point.x, point.y};
 }
 
@@ -915,9 +950,9 @@ api_modules_warper_build_maps(
     cv::Mat *R,
     cv::Mat *xmap,
     cv::Mat *ymap,
-    cv::Ptr<cv::detail::RotationWarper> *warper)
+    cv::detail::RotationWarper *warper)
 {
-    auto rect = (*warper)->buildMaps(src_size, *K, *R, *xmap, *ymap);
+    auto rect = warper->buildMaps(src_size, *K, *R, *xmap, *ymap);
     return {rect.x, rect.y, rect.width, rect.height};
 }
 
@@ -931,9 +966,9 @@ api_modules_warper_warp(
     int interp_mode,
     int border_mode,
     cv::Mat *dst,
-    cv::Ptr<cv::detail::RotationWarper> *warper)
+    cv::detail::RotationWarper *warper)
 {
-    auto point = (*warper)->warp(*src, *K, *R, interp_mode, border_mode, *dst);
+    auto point = warper->warp(*src, *K, *R, interp_mode, border_mode, *dst);
     return {point.x, point.y};
 }
 
@@ -948,10 +983,10 @@ api_modules_warper_warp_backward(
     int border_mode,
     cv::Size dst_size,
     cv::Mat *dst,
-    cv::Ptr<cv::detail::RotationWarper> *warper)
+    cv::detail::RotationWarper *warper)
 {
     BEGIN_WRAP;
-    (*warper)->warpBackward(*src, *K, *R, interp_mode, border_mode, dst_size, *dst);
+    warper->warpBackward(*src, *K, *R, interp_mode, border_mode, dst_size, *dst);
     END_WRAP
 }
 
@@ -961,25 +996,25 @@ api_modules_warper_warp_roi(
     cv::Size src_size,
     cv::Mat *K,
     cv::Mat *R,
-    cv::Ptr<cv::detail::RotationWarper> *warper)
+    cv::detail::RotationWarper *warper)
 {
-    auto rect = (*warper)->warpRoi(src_size, *K, *R);
+    auto rect = warper->warpRoi(src_size, *K, *R);
     return {rect.x, rect.y, rect.width, rect.height};
 }
 
 // virtual float getScale() const { return 1.f; }
 API(float)
-api_modules_warper_get_scale(cv::Ptr<cv::detail::RotationWarper> *warper)
+api_modules_warper_get_scale(cv::detail::RotationWarper *warper)
 {
-    return (*warper)->getScale();
+    return warper->getScale();
 }
 
 // virtual void setScale(float) {}
 API(ExceptionStatus)
-api_modules_warper_set_scale(float scale, cv::Ptr<cv::detail::RotationWarper> *warper)
+api_modules_warper_set_scale(float scale, cv::detail::RotationWarper *warper)
 {
-    BEGIN_WRAP;
-    (*warper)->setScale(scale);
+    BEGIN_WRAP
+    warper->setScale(scale);
     END_WRAP
 }
 

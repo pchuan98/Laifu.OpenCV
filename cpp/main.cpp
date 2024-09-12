@@ -303,6 +303,19 @@ void seam(
 
 int main()
 {
+    auto creator = cv::makePtr<cv::PlaneWarper>();
+    auto ptr = creator->create(.3f);
+
+    cv::Ptr<cv::detail::RotationWarper> **warper;
+    *warper = new cv::Ptr<cv::detail::RotationWarper>(ptr);
+
+    cv::detail::RotationWarper **warper2;
+    *warper2 = (*warper)->get();
+
+    cout << "warper: " << (*warper2)->getScale() << endl;
+
+    return 0;
+
     vector<Mat> images = {
         imread("D:\\.test\\stitch2\\3-4.jpg"),
         imread("D:\\.test\\stitch2\\3-5.jpg")
