@@ -1,6 +1,7 @@
-﻿using System.Drawing;
+﻿// ReSharper disable InconsistentNaming
 
-// ReSharper disable InconsistentNaming
+using System.Drawing;
+
 namespace Laifu.OpenCv.Native.Core;
 
 [Serializable]

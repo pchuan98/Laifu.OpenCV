@@ -63,6 +63,6 @@ public partial class Akaze(
             max_points,
             scale,
             index,
-            feature.Handle);
+            feature.Handle).ThrowHandleException();
     }
 }

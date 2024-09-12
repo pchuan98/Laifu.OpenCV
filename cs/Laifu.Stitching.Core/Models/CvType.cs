@@ -1,12 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// ReSharper disable InconsistentNaming
+
 using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Laifu.Stitching.Core.Models;
+
+#region Core
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential)]
+public record struct CvPoint2i(int Width, int Height);
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential)]
+public record struct CvPoint2f(float Width, float Height);
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential)]
+public record struct CvSize2i(int Width, int Height);
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential)]
+public record struct CvRect2i(int X, int Y, int Width, int Height);
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential)]
+public record struct CvScalar(double V0, double V1, double V2, double V3);
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential)]
+public record struct CvRange(int Start, int End);
 
 [StructLayout(LayoutKind.Sequential)]
 public struct CvSize(int width, int height)
@@ -19,6 +42,8 @@ public struct CvSize(int width, int height)
 
     public override string ToString() => $"CvSize(width: {width}, height: {height})";
 }
+
+#endregion
 
 [Serializable]
 [StructLayout(LayoutKind.Sequential)]

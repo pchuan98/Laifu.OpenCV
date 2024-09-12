@@ -39,6 +39,6 @@ public partial class Sift(
             enable_precise_upscale,
             scale,
             index,
-            feature.Handle);
+            feature.Handle).ThrowHandleException();
     }
 }

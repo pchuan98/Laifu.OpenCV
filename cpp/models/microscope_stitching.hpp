@@ -967,4 +967,20 @@ api_modules_warper_warp_roi(
     return {rect.x, rect.y, rect.width, rect.height};
 }
 
+// virtual float getScale() const { return 1.f; }
+API(float)
+api_modules_warper_get_scale(cv::Ptr<cv::detail::RotationWarper> *warper)
+{
+    return (*warper)->getScale();
+}
+
+// virtual void setScale(float) {}
+API(ExceptionStatus)
+api_modules_warper_set_scale(float scale, cv::Ptr<cv::detail::RotationWarper> *warper)
+{
+    BEGIN_WRAP;
+    (*warper)->setScale(scale);
+    END_WRAP
+}
+
 #pragma endregion

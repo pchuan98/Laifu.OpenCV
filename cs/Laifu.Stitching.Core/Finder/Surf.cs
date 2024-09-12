@@ -35,6 +35,6 @@ public partial class Surf(
             upright,
             scale,
             index,
-            feature.Handle);
+            feature.Handle).ThrowHandleException();
     }
 }

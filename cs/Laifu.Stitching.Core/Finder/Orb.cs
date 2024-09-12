@@ -84,6 +84,6 @@ public partial class Orb(
             fastThreshold,
             scale,
             index,
-            feature.Handle);
+            feature.Handle).ThrowHandleException();
     }
 }

@@ -21,7 +21,7 @@ public class BestOf2NearestRangeMatcher(
             num_matches_thresh1,
             num_matches_thresh2,
             features.ToHandle(),
-            out var vector);
+            out var vector).ThrowHandleException();
 
         infos = vector.ToMatchInfos();
     }

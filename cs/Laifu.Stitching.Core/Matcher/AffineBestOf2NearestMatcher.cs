@@ -20,7 +20,7 @@ public class AffineBestOf2NearestMatcher(
             (float)conf,
             num_matches_thresh1,
             features.ToHandle(),
-            out var vector);
+            out var vector).ThrowHandleException();
 
         infos = vector.ToMatchInfos();
     }
