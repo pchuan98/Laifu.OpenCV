@@ -1,8 +1,9 @@
 ﻿using Laifu.OpenCv.Cv2;
+using Laifu.OpenCv.Native.HighGui;
+using Laifu.OpenCv.Native.ImageCodecs;
 using Laifu.Stitching.Core.Estimator;
 using Laifu.Stitching.Core.Finder;
 using Laifu.Stitching.Core.Matcher;
-using Laifu.Stitching.Core.Models;
 using Laifu.Stitching.Core.Warper;
 
 namespace Laifu.Stitching.Wpf;
@@ -39,11 +40,28 @@ public partial class MainWindow
 
         Console.WriteLine(new NoBundleAdjuster().Estimate(ref features, ref matches, ref cameras));
 
-        var warper = RotationWarper.Generator(WarpType.Plane, 1);
-        warper.K = MatGenerator.K(1, 10, 10, 1);
-        warper.R = MatGenerator.Eye();
+        var warper = RotationWarper.Generator(WarpType.Affine, 1);
+        warper.K = MatGenerator.K(1, 10, 110, 1);
+        warper.R = MatGenerator.Mat32(
+            1, 0, 0,
+            0, 1, 0,
+            0, 0, 1);   
 
-        Console.WriteLine(warper.WarpPointBackward(new CvPoint2f(1, 1)));
+        var src = Cv2.ImRead(@"D:\.test\stitch2\3-4.jpg", ImreadModes.IMREAD_UNCHANGED);
+        var dst = new Mat();
+
+        Console.WriteLine(warper.Warp(src, InterpolationFlags.INTER_LINEAR, BorderTypes.BORDER_REFLECT, dst));
+
+        var srcw = new Window("src", flags: WindowFlags.WINDOW_NORMAL);
+        srcw.ShowLimitWidth(src);
+
+        var dstw = new Window("dst", flags: WindowFlags.WINDOW_NORMAL);
+        dstw.ShowLimitWidth(dst);
+
+        Console.WriteLine(src.Size);
+        Console.WriteLine(dst.Size);
+
+        Window.WaitKey(0);
 
         App.Current.Shutdown();
     }

@@ -957,7 +957,9 @@ int main(int argc, char *argv[])
         // moveWindow("result", 0, 0);
         // waitKey(0);
 
-        imwrite(result_name, mat);
+        // imwrite(result_name, mat);
+        imshow("result", mat);
+        waitKey(0);
     }
 
     LOGLN("Finished, total time: " << ((getTickCount() - app_start_time) / getTickFrequency()) << " sec");

@@ -142,7 +142,7 @@ public static class Test
 
         window.Resize(new Size2i(500, 500));
         window.Move(0, 0);
-        window.Show(img);
+        window.Show(new Mat(img));
 
         Console.WriteLine(window.ThreadId);
 

@@ -31,6 +31,7 @@
 #include "opencv2/stitching/warpers.hpp"
 #include "opencv2/xfeatures2d.hpp"
 #include "opencv2/xfeatures2d/nonfree.hpp"
+#include <opencv2/core/ocl.hpp>
 
 #include <vector>
 #include <future>
@@ -38,6 +39,7 @@
 #include <iostream>
 #include <stack>
 #include <filesystem>
+
 using namespace std;
 using namespace cv;
 using namespace detail;
@@ -45,10 +47,13 @@ namespace fs = std::filesystem;
 
 #pragma region Header
 
-void ResizeShow(InputArray &img, const string &name = "test", const int size = 1000);
+template <typename T>
+void ResizeShow(T *img, const string &name = "test", const int size = 1000);
 
 template <typename T>
 String ToStringEx(const T &value, int width = 5);
+
+double WINDOWSCALE = 1;
 
 class Semaphore
 {
@@ -78,7 +83,7 @@ private:
     int count_;
 };
 
-const Ptr<Feature2D> MatchFinder = xfeatures2d::SURF::create();
+const Ptr<Feature2D> MatchFinder = SIFT::create();
 // const Ptr<Feature2D> MatchFinder = ORB::create();
 constexpr double MatchConfidence = 0.8;
 
@@ -181,20 +186,61 @@ vector<MatchFlag> QuickMatchAll(const vector<Mat> &imgs, int rows, int cols, dou
 
 #pragma region CPP
 
-void ResizeShow(InputArray &img, const string &name, const int size)
+int MedianVector(std::vector<int> &nums)
 {
-    auto scale = 1.0;
-    double row = img.rows(), col = img.cols();
+    if (nums.empty())
+        return 0;
+
+    std::sort(nums.begin(), nums.end());
+
+    int n = nums.size();
+    return nums[n / 2];
+}
+
+void OnMouseMove(int event, int x, int y, int, void *userdata)
+{
+    if (event == EVENT_MOUSEMOVE)
+    {
+        Mat &img = *(Mat *)userdata;
+
+        auto ax = x / WINDOWSCALE;
+        auto ay = y / WINDOWSCALE;
+
+        if (img.type() == CV_16SC3)
+        {
+            auto az = img.at<Vec3s>(ay, ax);
+            cout << "x: " << ax << "\ty: " << ay << "\tvalue: " << az << endl;
+        }
+    }
+}
+
+template void ResizeShow(Mat *img, const string &name, const int size);
+template void ResizeShow(UMat *img, const string &name, const int size);
+
+template <typename T>
+void ResizeShow(T *img, const string &name, const int size)
+{
+    if (img->empty())
+    {
+        cout << "Image is empty!" << endl;
+        return;
+    }
+
+    namedWindow(name, WINDOW_AUTOSIZE);
+    setMouseCallback(name, OnMouseMove, (void *)img);
+
+    WINDOWSCALE = 1.0;
+    double row = img->rows, col = img->cols;
 
     while (!(row < size && col < size))
     {
-        scale -= 0.01;
-        row = img.rows() * scale;
-        col = img.cols() * scale;
+        WINDOWSCALE -= 0.01;
+        row = img->rows * WINDOWSCALE;
+        col = img->cols * WINDOWSCALE;
     }
 
     Mat rmat;
-    resize(img, rmat, Size(), scale, scale);
+    resize(*img, rmat, Size(), WINDOWSCALE, WINDOWSCALE);
 
     imshow(name, rmat);
 }
@@ -616,7 +662,249 @@ Mat CubeMat(int width, int height, int mWidth, int nHeight, bool reverse = false
     return img;
 }
 
+vector<Mat> imgs;
+vector<Mat> imgs8;
+vector<UMat> warped;
+vector<Size> sizes;
+
 int main()
 {
-    fs::path root = R"(D:\.test\wafer\A0)";
+    cv::ocl::setUseOpenCL(true);
+
+    fs::path root = R"(D:\.test\20240912\40x3\src)";
+    auto save = R"(D:\.test\20240912\40x3\result_p3.tif)";
+
+    auto xStart = 10,
+         xEnd = 20,
+         yStart = 1,
+         yEnd = 10;
+
+    auto rows = xEnd - xStart + 1;
+    auto cols = yEnd - yStart + 1;
+
+    const auto scale_x = 0.98;
+    const auto scale_y = 0.98;
+
+    auto img1 = imread((root / "1_1.bmp").string(), IMREAD_UNCHANGED);
+
+    auto overlap_x = img1.cols * scale_x;
+    auto overlap_y = img1.rows * scale_y;
+
+    const auto gain = 1;
+    const auto band = 100;
+
+    const auto scale = 0.7;
+
+    overlap_x *= scale;
+    overlap_y *= scale;
+
+    for (int i = xStart; i <= xEnd; i++)
+    {
+        for (int j = yStart; j <= yEnd; j++)
+        {
+            fs::path path = root / (std::to_string(i) + "_" + std::to_string(j) + ".bmp");
+            // fs::path path = root / (to_string(i * cols + j + 1) + ".tif");
+            cout << path << endl;
+            auto img = imread(path.string(), IMREAD_UNCHANGED);
+            auto img8 = imread(path.string());
+
+            if (abs(scale - 1) > 1e-6)
+            {
+                resize(img, img, Size(), scale, scale, INTER_LINEAR_EXACT);
+                resize(img8, img8, Size(), scale, scale, INTER_LINEAR_EXACT);
+            }
+
+            imgs8.push_back(img8);
+            imgs.push_back(img);
+            sizes.push_back(img.size());
+            warped.push_back(imgs[imgs.size() - 1].clone().getUMat(ACCESS_RW));
+        }
+    }
+
+    auto flags = QuickMatchAll(imgs8, rows, cols, 0.1, 0.1, 0.1);
+
+    Ptr<ExposureCompensator> compensator = ExposureCompensator::createDefault(ExposureCompensator::GAIN);
+    auto gcompensator = dynamic_cast<GainCompensator *>(compensator.get());
+    gcompensator->setNrFeeds(gain);
+
+    vector<Point> corners;
+    vector<UMat> masks;
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            auto index = i * cols + j;
+            auto flag = flags[index];
+
+            auto xStart = flag.coordinate->x * overlap_x;
+            auto yStart = flag.coordinate->y * overlap_y;
+
+            auto cube = CubeMat(imgs[index].cols, imgs[index].rows, imgs[index].cols * scale_x, imgs[index].rows * scale_y, false).getUMat(ACCESS_RW);
+            auto full255 = Mat(imgs[index].rows, imgs[index].cols, CV_8U, cv::Scalar(255)).getUMat(ACCESS_RW);
+            auto full0 = Mat(imgs[index].rows, imgs[index].cols, CV_8U, cv::Scalar(0)).getUMat(ACCESS_RW);
+            masks.push_back(cube);
+
+            corners.push_back(Point(xStart + flag.target.x, yStart + flag.target.y));
+        }
+    }
+
+    compensator->feed(corners, masks, warped);
+
+    cout << "==================================================================\n";
+    if (dynamic_cast<GainCompensator *>(compensator.get()))
+    {
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                auto com = dynamic_cast<GainCompensator *>(compensator.get());
+                cout << com->gains()[i * cols + j] << "\t";
+            }
+            cout << "\n";
+        }
+    }
+
+    auto blender = Blender::createDefault(Blender::MULTI_BAND, false);
+    auto mb = dynamic_cast<MultiBandBlender *>(blender.get());
+    mb->setNumBands(band);
+
+    blender->prepare(corners, sizes);
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            auto index = i * cols + j;
+            auto flag = flags[index];
+            auto img = imgs[index];
+
+            compensator->apply(index, corners[index], img, masks[index]);
+
+            try
+            {
+                Mat warped_s = img.clone();
+                if (img.channels() == 1)
+                    cvtColor(img, img, COLOR_GRAY2BGR);
+                if (img.depth() == CV_16U)
+                    img.convertTo(warped_s, CV_16SC3, 1, -65535 / 2.0);
+                else if (img.depth() == CV_8U)
+                    img.convertTo(warped_s, CV_16SC3, 256, -65535 / 2);
+                else if (img.depth() == CV_16S)
+                    warped_s = img.clone();
+                else
+                    throw runtime_error("Unsupported image depth");
+
+                auto cube = CubeMat(img.cols, img.rows, img.cols * scale_x, img.rows * scale_y, true).getUMat(ACCESS_RW);
+                blender->feed(warped_s, cube, corners[index]);
+                ResizeShow(&warped_s, "warped_s", 1000);
+                waitKey(0);
+            }
+
+            catch (const exception &e)
+            {
+                cout << e.what() << endl;
+            }
+        }
+    }
+
+    cout << "\nblending...................." << endl;
+
+    Mat result,
+        result_mask;
+    blender->blend(result, result_mask);
+
+    cout << "channels: " << result.channels() << " depth: " << result.depth() << endl;
+
+    auto rowsSplit = result.rows / 10;
+    auto colsSplit = result.cols / 10;
+
+    cout << "----> " << rowsSplit << " " << colsSplit << endl;
+
+    vector<int> left, top, right, bottom;
+
+    rows = result.rows;
+    cols = result.cols;
+    for (size_t i = 0; i < 8; i++)
+    {
+        // --------->
+        for (size_t j = 0; j < rows; j++)
+        {
+            auto x = j;
+            auto y = i * rowsSplit;
+
+            if (result.at<Vec3s>(y, x) == Vec3s(0, 0, 0))
+                continue;
+
+            left.push_back(x);
+            break;
+        }
+
+        // <---------
+        for (size_t j = cols - 1; j > 0; j--)
+        {
+            auto x = j;
+            auto y = i * rowsSplit;
+
+            if (result.at<Vec3s>(y, x) == Vec3s(0, 0, 0))
+                continue;
+
+            right.push_back(x);
+            break;
+        }
+
+        // |
+        // |
+        // v
+        for (size_t j = 0; j < rows; j++)
+        {
+            auto x = i * colsSplit;
+            auto y = j;
+
+            if (result.at<Vec3s>(y, x) == Vec3s(0, 0, 0))
+                continue;
+
+            top.push_back(y);
+            break;
+        }
+
+        // ^
+        // |
+        // |
+        for (size_t j = rows - 1; j > 0; j--)
+        {
+            auto x = i * colsSplit;
+            auto y = j;
+
+            if (result.at<Vec3s>(y, x) == Vec3s(0, 0, 0))
+                continue;
+
+            bottom.push_back(y);
+            break;
+        }
+    }
+
+    cout << left.size() << endl;
+
+    auto rect = Rect(MedianVector(left), MedianVector(top), MedianVector(right) - MedianVector(left), MedianVector(bottom) - MedianVector(top));
+    cout << rect << endl;
+    Mat crop = result(rect);
+
+    double minval, maxval;
+    minMaxLoc(img1, &minval, &maxval);
+    cout << "min: " << minval << " max: " << maxval << endl;
+
+    // normalize(crop, crop, 256 * (maxval - minval) / 65535.0, 0, NORM_MINMAX, CV_8U);
+    normalize(crop, crop, maxval, minval, NORM_MINMAX, CV_8U);
+
+    // cvtColor(result, result, COLOR_BGR2GRAY);
+    minMaxLoc(crop, &minval, &maxval);
+    cout << "min: " << minval << " max: " << maxval << endl;
+
+    imwrite(save, crop);
+
+    // ResizeShow(&crop, "blender");
+    // waitKey(0);
+
+    cout << "Done\n";
 }

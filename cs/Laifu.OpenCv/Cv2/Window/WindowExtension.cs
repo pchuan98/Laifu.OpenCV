@@ -10,7 +10,7 @@ public static class WindowExtension
         var name = new string(Enumerable.Range(0, 8).Select(_ => "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"[new Random().Next(52)]).ToArray());
 
         var window = new Window(name);
-        window.Show(mat);
+        window.Show(new Mat(mat));
 
         Window.WaitKey(0);
     }

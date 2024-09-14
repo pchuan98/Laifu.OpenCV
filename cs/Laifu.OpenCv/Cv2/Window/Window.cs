@@ -121,8 +121,23 @@ public class Window
     /// </summary>
     /// <param name="mat"></param>
     /// <returns></returns>
-    public void Show(MatHandle mat)
-        => HighGuiMethod.Imshow(WinName, mat).ThrowHandleException();
+    public void Show(Mat mat)
+        => HighGuiMethod.Imshow(WinName, mat.Handle).ThrowHandleException();
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="mat"></param>
+    /// <param name="width"></param>
+    public void ShowLimitWidth(Mat mat, int width = 1000)
+    {
+        var size = mat.Size;
+
+        var scale = 1.0 * width / size.Width;
+
+        Resize(new Size2i((int)(size.Width * scale), (int)(size.Height * scale)));
+        Show(mat);
+    }
 
     /// <summary>
     /// 

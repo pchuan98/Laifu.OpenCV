@@ -1019,3 +1019,4 @@ api_modules_warper_set_scale(float scale, cv::detail::RotationWarper *warper)
 }
 
 #pragma endregion
+
