@@ -100,15 +100,15 @@ int main()
     vector<Mat> images = {
         imread("D:\\.test\\stitch2\\4-3.jpg"),
         imread("D:\\.test\\stitch2\\4-4.jpg"),
-        imread("D:\\.test\\stitch2\\4-5.jpg"),
+        // imread("D:\\.test\\stitch2\\4-5.jpg"),
         // imread("D:\\.test\\stitch2\\4-8.jpg"),
         // imread("D:\\.test\\stitch2\\4-9.jpg"),
         // imread("D:\\.test\\stitch2\\4-10.jpg"),
         // imread("D:\\.test\\stitch2\\5-8.jpg"),
         // imread("D:\\.test\\stitch2\\5-9.jpg"),
         // imread("D:\\.test\\stitch2\\5-10.jpg"),
-        // imread("C:\\Users\\simscop\\Desktop\\1.jpg"),
         // imread("C:\\Users\\simscop\\Desktop\\2.jpg"),
+        // imread("C:\\Users\\simscop\\Desktop\\3.jpg"),
         //
     };
 

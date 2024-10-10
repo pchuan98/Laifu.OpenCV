@@ -40,12 +40,9 @@ public partial class MainWindow
 
         Console.WriteLine(new NoBundleAdjuster().Estimate(ref features, ref matches, ref cameras));
 
-        var warper = RotationWarper.Generator(WarpType.Affine, 1);
-        warper.K = MatGenerator.K(1, 10, 110, 1);
-        warper.R = MatGenerator.Mat32(
-            1, 0, 0,
-            0, 1, 0,
-            0, 0, 1);   
+        var warper = RotationWarper.Generator(WarpType.Plane);
+        warper.K = MatGenerator.K(1, 0, 0, 1);
+        warper.R = MatGenerator.R();
 
         var src = Cv2.ImRead(@"D:\.test\stitch2\3-4.jpg", ImreadModes.IMREAD_UNCHANGED);
         var dst = new Mat();

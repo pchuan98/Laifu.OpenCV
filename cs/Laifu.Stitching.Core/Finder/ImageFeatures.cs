@@ -1,7 +1,7 @@
 ﻿using Laifu.OpenCv.Native.Stitching;
 using Laifu.OpenCv.Native;
 using System.Drawing;
-using Laifu.OpenCv.Cv2.Core;
+using Laifu.OpenCv.Cv2;
 using Laifu.OpenCv.Native.Core;
 
 namespace Laifu.Stitching.Core.Finder;

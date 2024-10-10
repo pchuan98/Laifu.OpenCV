@@ -107,6 +107,7 @@ api_inputarray_getMat(cv::_InputArray *input, int idx, cv::Mat **output)
 {
     BEGIN_WRAP
     *output = new cv::Mat(input->getMat(idx));
+    auto mat = new cv::UMat();
     END_WRAP
 }
 

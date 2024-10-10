@@ -946,7 +946,7 @@ api_modules_warper_warp_point_backward(
 API(CvRect)
 api_modules_warper_build_maps(
     cv::Size src_size,
-    cv::Mat *K,
+    cv::_InputArray *K,
     cv::Mat *R,
     cv::Mat *xmap,
     cv::Mat *ymap,
@@ -1020,3 +1020,28 @@ api_modules_warper_set_scale(float scale, cv::detail::RotationWarper *warper)
 
 #pragma endregion
 
+#pragma region ExposureCompensator
+
+API(ExceptionStatus)
+api_modules_exposure_compensator_create(
+    int type,
+    cv::Ptr<cv::detail::ExposureCompensator> **compensator)
+{
+    BEGIN_WRAP
+    *compensator = new cv::Ptr<cv::detail::ExposureCompensator>(cv::detail::ExposureCompensator::createDefault(type));
+    END_WRAP
+}
+
+API(ExceptionStatus)
+api_modules_exposure_compensator_get(
+    cv::Ptr<cv::detail::ExposureCompensator> *compensatorPtr,
+    cv::detail::ExposureCompensator **compensator)
+{
+    BEGIN_WRAP
+    *compensator = compensatorPtr->get();
+    END_WRAP
+}
+
+
+
+#pragma endregion

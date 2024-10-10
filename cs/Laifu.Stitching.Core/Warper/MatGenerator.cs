@@ -32,6 +32,34 @@ public static class MatGenerator
         return new Mat(handle);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="theta">顺时针旋转角度 单位<code>°</code></param>
+    /// <param name="s">scale</param>
+    /// <param name="tx">平移x</param>
+    /// <param name="ty">平移y</param>
+    /// <param name="hx">剪切参数x</param>
+    /// <param name="hy">剪切参数y</param>
+    /// <returns></returns>
+    public static Mat R(
+        double theta = 0,
+        double s = 1,
+        double tx = 0,
+        double ty = 0,
+        double hx = 0,
+        double hy = 0)
+    {
+        var angle = -theta / 180.0 * Math.PI;
+        var cos = Math.Cos(angle) * s;
+        var sin = Math.Sin(angle) * s;
+
+        return Mat32(
+            cos, hx - sin, tx,
+            hy + sin, cos, ty,
+            0, 0, 1);
+    }
+
     public static Mat Eye() => Mat32(
         1, 0, 0,
         0, 1, 0,
