@@ -98,6 +98,8 @@ void ResizeShow(T *img, const string &name, const int size, const bool wait)
 int main()
 {
     vector<Mat> images = {
+        // cv::imread("D:/.test/wafer/A86/2_16.bmp"),
+        // cv::imread("D:/.test/wafer/A86/2_17.bmp"),
         imread("D:\\.test\\stitch2\\4-3.jpg"),
         imread("D:\\.test\\stitch2\\4-4.jpg"),
         // imread("D:\\.test\\stitch2\\4-5.jpg"),
@@ -193,9 +195,19 @@ int main()
     gcompensator->setNrFeeds(1);
     compensator->feed(corners, images_warped_f, masks_warped);
 
+    cout << "======================" << endl;
+    cout << sizes[0] << endl;
+    cout << corners[0] << endl;
+    cout << corners[1] << endl;
+
+    imshow("mask1", masks_warped[0]);
+    imshow("mask2", masks_warped[1]);
+    waitKey(0);
+
     // auto seamer = makePtr<GraphCutSeamFinder>(GraphCutSeamFinderBase::COST_COLOR);
     auto seamer = makePtr<detail::VoronoiSeamFinder>();
     seamer->find(images_warped_f, corners, masks_warped);
+
     images_warped_f.clear();
 
     auto blender = Blender::createDefault(Blender::MULTI_BAND, false);

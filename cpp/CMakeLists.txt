@@ -71,6 +71,12 @@ target_link_libraries(models ${OpenCV_LIBS})
 add_executable(old old.cpp)
 target_link_libraries(old ${OpenCV_LIBS})
 
+add_executable(demo demo.cpp)
+target_link_libraries(demo ${OpenCV_LIBS})
+
+add_executable(motion motion.cpp)
+target_link_libraries(motion ${OpenCV_LIBS})
+
 get_filename_component(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 message(STATUS "XXX: ${ROOT_DIR}")
 
@@ -78,3 +84,4 @@ message(STATUS "XXX: ${ROOT_DIR}")
 # SET(LIBRARY_OUTPUT_PATH ${ROOT_DIR}/bin)
 
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_HOME_DIRECTORY}/bin)
+add_subdirectory(modules/MicroscopeStitcher)

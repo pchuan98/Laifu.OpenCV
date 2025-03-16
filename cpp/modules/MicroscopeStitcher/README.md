@@ -15,3 +15,4 @@ A custom algorithm module specifically developed for the microscope Stitcher fun
 - [ ] Estimator
 - [ ] Seam Finder
 - [ ] Blender
+- [ ] Remove the limitations of OpenCV and implement the core parts of the code independently.
