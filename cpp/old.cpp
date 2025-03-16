@@ -671,21 +671,21 @@ int main()
 {
     cv::ocl::setUseOpenCL(true);
 
-    fs::path root = R"(D:\.test\20240912\40x3\src)";
-    auto save = R"(D:\.test\20240912\40x3\result_p3.tif)";
+    fs::path root = R"(D:\.test\test_human\1031\2024-10-30-18-00-41-568)";
+    auto save = R"(D:\.test\test_human\1031\8.tif)";
 
-    auto xStart = 10,
-         xEnd = 20,
+    auto xStart = 1,
+         xEnd = 10,
          yStart = 1,
          yEnd = 10;
 
     auto rows = xEnd - xStart + 1;
     auto cols = yEnd - yStart + 1;
 
-    const auto scale_x = 0.98;
-    const auto scale_y = 0.98;
+    const auto scale_x = 0.865;
+    const auto scale_y = 0.8;
 
-    auto img1 = imread((root / "1_1.bmp").string(), IMREAD_UNCHANGED);
+    auto img1 = imread((root / "1_1.tif").string(), IMREAD_UNCHANGED);
 
     auto overlap_x = img1.cols * scale_x;
     auto overlap_y = img1.rows * scale_y;
@@ -693,7 +693,7 @@ int main()
     const auto gain = 1;
     const auto band = 100;
 
-    const auto scale = 0.7;
+    const auto scale = 1;
 
     overlap_x *= scale;
     overlap_y *= scale;
@@ -702,7 +702,7 @@ int main()
     {
         for (int j = yStart; j <= yEnd; j++)
         {
-            fs::path path = root / (std::to_string(i) + "_" + std::to_string(j) + ".bmp");
+            fs::path path = root / (std::to_string(i) + "_" + std::to_string(j) + ".tif");
             // fs::path path = root / (to_string(i * cols + j + 1) + ".tif");
             cout << path << endl;
             auto img = imread(path.string(), IMREAD_UNCHANGED);
@@ -797,8 +797,8 @@ int main()
 
                 auto cube = CubeMat(img.cols, img.rows, img.cols * scale_x, img.rows * scale_y, true).getUMat(ACCESS_RW);
                 blender->feed(warped_s, cube, corners[index]);
-                ResizeShow(&warped_s, "warped_s", 1000);
-                waitKey(0);
+                // ResizeShow(&warped_s, "warped_s", 1000);
+                // waitKey(0);
             }
 
             catch (const exception &e)
