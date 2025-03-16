@@ -1,0 +1,19 @@
+﻿<liftui:Window
+    x:Class="Laifu.Stitching.Wpf.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:liftui="https://github.com/pchuan98/Lift.UI"
+    xmlns:local="clr-namespace:Laifu.Stitching.Wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wpf="clr-namespace:Laifu.Stitching.Wpf"
+    Width="800"
+    Height="450"
+    SystemBackdropType="Mica"
+    Topmost="True"
+    mc:Ignorable="d">
+    <liftui:Window.NonClientAreaContent>
+        <Grid />
+    </liftui:Window.NonClientAreaContent>
+    <Grid />
+</liftui:Window>

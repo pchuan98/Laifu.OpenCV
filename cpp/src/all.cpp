@@ -1,0 +1,12 @@
+#include "common.hpp"
+#include "core.hpp"
+#include "dnn.hpp"
+#include "features2d.hpp"
+#include "gapi.hpp"
+#include "highgui.hpp"
+#include "imgcodecs.hpp"
+#include "std.hpp"
+#include "stitching.hpp"
+#include "test.hpp"
+
+#include "microscope_stitching.hpp"

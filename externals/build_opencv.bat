@@ -11,7 +11,7 @@ set https_proxy=http://127.0.0.1:10809
 @REM set the env variable
 set opencvPath="%~dp0opencv"
 set modulePath="%~dp0opencv_contrib\modules"
-set build="../build/opencv"
+set build="./build"
 
 @REM x64 or Win32
 set msbuildPlatform=x64
@@ -47,14 +47,19 @@ cmake ^
     -D BUILD_opencv_python_bindings_generator=OFF ^
     -D BUILD_opencv_python_tests=OFF ^
     -D BUILD_opencv_ts=OFF ^
+
     -D BUILD_opencv_world=OFF ^
 
     -D WITH_QT=OFF ^
     -D WITH_FREETYPE=OFF ^
     -D OPENCV_ENABLE_NONFREE=ON ^
+
     -D OPENCV_EXTRA_MODULES_PATH=%modulePath% ^
+
     -G "Visual Studio 17 2022" ^
     -S %opencvPath%
 
-msbuild ../build/opencv/INSTALL.vcxproj /t:build /p:configuration=Release /p:platform=%msbuildPlatform% /maxcpucount
+msbuild %build%/INSTALL.vcxproj /t:build /p:configuration=Debug /p:platform=%msbuildPlatform% /maxcpucount
+msbuild %build%/INSTALL.vcxproj /t:build /p:configuration=Release /p:platform=%msbuildPlatform% /maxcpucount
+
 pause
