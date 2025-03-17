@@ -4,3 +4,6 @@
 [submodule "externals/opencv_contrib"]
 	path = externals/opencv_contrib
 	url = https://github.com/opencv/opencv_contrib.git
+[submodule "externals/cppsharp"]
+	path = externals/cppsharp
+	url = https://github.com/mono/CppSharp.git
