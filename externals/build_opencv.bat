@@ -1,12 +1,13 @@
 @echo off
 
-setlocal
+setlocal enabledelayedexpansion
+chcp 65001
 
 cd /d %~dp0
 
 @REM add the proxy
-set http_proxy=http://127.0.0.1:10809
-set https_proxy=http://127.0.0.1:10809
+set http_proxy=http://127.0.0.1:1080
+set https_proxy=http://127.0.0.1:1080
 
 @REM set the env variable
 set opencvPath="%~dp0opencv"
@@ -16,9 +17,41 @@ set build="./build"
 @REM x64 or Win32
 set msbuildPlatform=x64
 
-@REM build
-call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat"
+@REM Set default Visual Studio path
+set "vsCount=5"
+set "vsPath[1]=C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\Tools\VsDevCmd.bat"
+set "vsPath[2]=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat"
+set "vsPath[3]=C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\Tools\VsDevCmd.bat"
+set "vsPath[4]=C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
+set "vsPath[5]=C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\Tools\VsDevCmd.bat"
 
+set "vsName[1]=Visual Studio 2022 Preview"
+set "vsName[2]=Visual Studio 2022 Enterprise"
+set "vsName[3]=Visual Studio 2022 Professional"
+set "vsName[4]=Visual Studio 2022 Community"
+set "vsName[5]=User Config"
+
+@REM Try to find Visual Studio 2022
+set "vsFound=0"
+for /L %%i in (1,1,%vsCount%) do (
+    echo Checking: !vsName[%%i]!
+    if exist "!vsPath[%%i]!" (
+        echo Found: !vsName[%%i]!
+        call "!vsPath[%%i]!"
+        set "vsFound=1"
+        goto vs_found
+    )
+)
+
+:vs_not_found
+if %vsFound% EQU 0 (
+    echo ## Error: Not found Visual Studio 2022.Please ensure that Visual Studio 2022 is installed.
+    echo ## If you have installed Visual Studio 2022, please modify the script to set the correct path.
+    pause
+    exit /b 1
+)
+
+:vs_found
 cmake ^
     -A %msbuildPlatform% ^
     -B %build% ^
